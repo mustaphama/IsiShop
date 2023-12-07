@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f0e02769-2990-4082-a290-9c1cd0da61c6" name="Changes" comment="" />
+    <list default="true" id="f0e02769-2990-4082-a290-9c1cd0da61c6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/CreationDeCompte.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Html-PHP - caractères accentués et l'UTF8.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PHP Projet shopping Bag 23-24.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PageConec.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accueil.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web4shop23-24.sql" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,7 +49,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "Melab",
     "last_opened_file_path": "C:/xampp/htdocs/WebProjet",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -74,7 +81,7 @@
       <workItem from="1701890109465" duration="56000" />
       <workItem from="1701890324833" duration="6656000" />
       <workItem from="1701935227306" duration="223000" />
-      <workItem from="1701939580799" duration="882000" />
+      <workItem from="1701939580799" duration="1481000" />
     </task>
     <servers />
   </component>
