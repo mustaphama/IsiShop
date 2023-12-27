@@ -6,68 +6,64 @@
     <title>Création de compte</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   </head>
-  <body  class="col col-md-6 mx-auto" style="background-color: #0D1117;">
+  <body  class="mx-auto" style="background-color: #0D1117;">
     <div class="container d-flex justify-content-center align-items-center">
-    <main class="form-signin w-50 mx-auto">
+    <main class="form-signin mx-auto" style="width: 325px;">
       <div class="text-white p-3 border border-dark border-1 rounded-3 pb-1 pt-4" style="background-color: #161B22;">
-      <form>
+      <form action="../Controller/SignupController.php" method="post">
         <h1 class="h3 mb-3 fw-normal">Créez votre compte</h1>
         <div class="row">
           <div class="col">
             <div class="form-floating">
-              <input type="text" class="form-control my-2" id="floatingPassword" placeholder="Nom">
+              <input required type="text" class="form-control my-2" id="floatingPassword" placeholder="Nom" name="Nom">
               <label class="text-black opacity-50" for="floatingInput">Nom</label>
             </div>
           </div>
           <div class="col">
             <div class="form-floating">
-              <input type="text" class="form-control my-2" id="floatingPassword" placeholder="Prénom">
+              <input required type="text" class="form-control my-2" id="floatingPassword" placeholder="Prénom" name="Prenom">
               <label class="text-black opacity-50" for="floatingInput">Prénom</label>
             </div>
           </div>
         </div>
         <div class="form-floating">
-          <input type="text" class="form-control my-2 text-black" id="floatingInput" placeholder="example123">
+          <input required  type="text" class="form-control my-2 text-black" id="floatingInput" placeholder="example123" name="username">
           <label class="text-black opacity-50" for="floatingInput">Nom d'utilisateur</label>
         </div>
         <div class="form-floating">
-          <input type="email" class="form-control my-2 text-black" id="floatingInput" placeholder="name@example.com">
+          <input required type="email" class="form-control my-2 text-black" id="floatingInput" placeholder="name@example.com" name="email">
           <label class="text-black opacity-50" for="floatingInput">Adresse email</label>
         </div>
         <div class="form-floating">
-          <input type="text" class="form-control my-2 text-black" id="floatingInput" placeholder="+331234567">
+          <input required type="text" class="form-control my-2 text-black" id="floatingInput" name="PhoneNumber" placeholder="0123456789" pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+                 oninvalid="this.setCustomValidity('Marquez un numéro de téléphone valide')"
+                 oninput="this.setCustomValidity('')">
           <label class="text-black opacity-50" for="floatingInput">Téléphone</label>
         </div>
         <div class="form-floating">
-          <input type="password" class="form-control my-2" id="floatingPassword" placeholder="Password">
+          <input required type="password" class="form-control my-2" id="floatingPassword" placeholder="Password" name="password" pattern="^[A-Za-z0-9]{8,}$">
           <label class="text-black opacity-50" for="floatingPassword">Mot de passe</label>
         </div>
         <div class="form-floating">
-          <input type="password" class="form-control my-2" id="floatingPassword" placeholder="Password">
+          <input required type="password" class="form-control my-2" id="floatingPassword" placeholder="Password" name="ConfirmPassword">
           <label class="text-black opacity-50" for="floatingPassword">Confirmez votre mot de passe</label>
         </div>
         <hr class="border border-grey border-1 opacity-1">
         <div class="form-floating">
-          <input type="text" class="form-control my-2" id="floatingInput" placeholder="Rue de la Twig">
-          <label class="text-black opacity-50" for="floatingInput">Addresse 1</label>
+          <input required type="text" class="form-control my-2" id="floatingInput" placeholder="Rue de la Twig" name="Adresse">
+          <label class="text-black opacity-50" for="floatingInput">Addresse</label>
         </div>
         <div class="form-floating">
-          <input type="text" class="form-control my-2" id="floatingInput" placeholder="Avenue de Chavannes">
-          <label class="text-black opacity-50" for="floatingInput">Addresse 2 <i>(optionnel)</i></label>
-        </div>
-        <div class="form-floating">
-          <input type="text" class="form-control my-2 text-black" id="floatingInput" placeholder="Appartement 123">
-          <label class="text-black opacity-50" for="floatingInput">Addresse 3 <i>(optionnel)</i></label>
-        </div>
-        <div class="form-floating">
-          <input type="text" class="form-control my-2 text-black" id="floatingInput" placeholder="123456">
+          <input required type="text" class="form-control my-2 text-black" id="floatingInput" placeholder="123456" pattern="[0-9]{5}"
+                 oninvalid="this.setCustomValidity('Marquez un numéro code postale valide')"
+                 oninput="this.setCustomValidity('')">
           <label class="text-black opacity-50" for="floatingInput">Adresse Postale</label>
         </div>
-        <button class="btn w-100 text-black border border-0 py-2 btn-warning" type="submit">Se connecter</button>
-        <p class="text-end">T'as déjà un compte? <a href="www.google.com">Connecte-toi!</a></p>
+        <button class="btn w-100 text-black border mt-2 mb-2 border-0 py-2 btn-warning" type="submit">Se connecter</button>
+        <p class="text-end">Vous avez déjà un compte? <a href="PageConec.html.twig">Connectez-vous!</a></p>
+      </form>
       </div>
         <p class="mt-1 mb-3 text-white">&copy; Polytech 2023</p>
-      </form>
     </main>
   </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
