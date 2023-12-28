@@ -7,7 +7,6 @@ class LoginController {
         $this->modele = new ModeleWeb4Shop();
     }
     public function importerDonneeLogins() {
-        $this->modele->ouvrirConnexion();
         $donneesLogins = $this->modele->importerTable("logins");
         $this->modele->fermerConnexion();
         return $donneesLogins;

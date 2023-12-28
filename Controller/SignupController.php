@@ -7,19 +7,16 @@ class SignupController {
         $this->modele = new ModeleWeb4Shop();
     }
     public function importerDonneeLogins():array {
-        $this->modele->ouvrirConnexion();
         $donneesLogins = $this->modele->importerTable("logins");
         $this->modele->fermerConnexion();
         return $donneesLogins;
     }
     public function importerDonneeUtilisateurs():array {
-        $this->modele->ouvrirConnexion();
         $donneesUtil = $this->modele->importerTable("customers");
         $this->modele->fermerConnexion();
         return $donneesUtil;
     }
     public function nouveauUtilisateur($forname, $surname, $add1, $add2, $add3, $postcode, $phone, $email, $username, $password) {
-        $this->modele->ouvrirConnexion();
         $this->modele->createUser($forname, $surname, $add1, $add2, $add3, $postcode, $phone, $email, $username, $password);
         $this->modele->fermerConnexion();
     }
