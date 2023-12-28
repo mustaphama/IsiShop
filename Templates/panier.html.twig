@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Accueil Shop</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <header class="p-3 text-bg-dark">
+      <h1 class="display-4 text-center m-0 font-weight-bold text-warning">
+        <strong>ISIWEB4SHOP</strong>
+      </h1>
+      <div
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+      >
+        <ul
+          class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
+        >
+          <li>
+            <a href="allproducts.php" class="nav-link px-2 text-white"
+              >Accueil</a
+            >
+          </li>
+          <li>
+            <a href="allproducts.php" class="nav-link px-2 text-white"
+              >Tout les produits</a
+            >
+          </li>
+          {% for c in categories %} {% if cat == c.id %}
+          <li>
+            <a
+              href="allproducts.php?cat={{ c.id }}"
+              class="nav-link px-2 text-secondary"
+              >{{ c.name }}</a
+            >
+          </li>
+          {% else %}
+          <li>
+            <a
+              href="allproducts.php?cat={{ c.id }}"
+              class="nav-link px-2 text-white"
+              >{{ c.name }}</a
+            >
+          </li>
+          {% endif %} {% endfor %}
+        </ul>
+
+        <div class="text-end">
+          <a
+            class="btn btn-warning rounded-circle p-2 lh-1 m-2"
+            href="orderitems.php"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              fill="currentColor"
+              class="bi bi-cart2"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"
+              />
+            </svg>
+          </a>
+          <a href="LoginController.php" class="btn btn-outline-light me-2">
+            Login
+          </a>
+          <a href="SignupController.php" class="btn btn-warning">Sign-up</a>
+        </div>
+      </div>
+    </header>
+    <div class="row mt-3">
+      <div class="col-md-1"></div>
+      <div class="col-md-7">
+        <div
+          class="text-center border border-dark rounded bg-secondary-subtle text-emphasis-secondary"
+        >
+          <h2 class="title" style="font-family: 'Times New Roman', serif">
+            Mon Panier
+          </h2>
+        </div>
+        {% for p in panier %}
+        <form method="post" action="orderitems.php">
+          <div class="card h-auto shadow" style="position: relative">
+            <input type="hidden" name="p" value="{{ p.id }}" />
+            <button
+              name="supprime"
+              style="
+                border: none;
+                background-color: transparent;
+                padding: 0;
+                margin: 0;
+                cursor: pointer;
+              "
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="19"
+                height="19"
+                fill="currentColor"
+                class="bi bi-trash-fill m-3"
+                style="position: absolute; top: 0; right: 0; margin: 8px"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"
+                />
+              </svg>
+            </button>
+
+            <div class="row">
+              <img
+                src="../productimages/{{ p.img }}"
+                width="10%"
+                height="60%"
+                class="h-auto m-3 col-md-2"
+              />
+              <div class="col-md-7 mt-4">
+                <div class="row">
+                  <h4
+                    class="col-md-3"
+                    style="font-family: Arial, Helvetica, sans-serif"
+                  >
+                    {{ p.nom }}
+                  </h4>
+                  <div class="col-md-1"></div>
+                  <span class="col-md-3">Quantité : {{ p.quantite }}</span>
+                  <h5 class="m-2 col-md-3 offset-md-3">
+                    <strong>{{ p.prix * p.quantite }}$</strong>
+                  </h5>
+                </div>
+                <p class="row">{{ p.prix }}$</p>
+              </div>
+            </div>
+          </div>
+        </form>
+        {% endfor %}
+      </div>
+
+      <div class="col-md-3">
+        <div class="block-total card p-2 shadow-lg">
+          <div class="text-center mb-2">Récapitulatif</div>
+          <div>
+            <div>
+              <small>Produits</small>
+              <span class="amount d-flex justify-content-end"
+                ><small>{{ total }} $</small></span
+              >
+            </div>
+
+            <div>
+              <strong>Total</strong>
+              <span class="amount d-flex justify-content-end"
+                ><strong>{{ total }} $</strong>
+              </span>
+            </div>
+            <hr />
+
+            <div class="delivery-total glopal-hide" id="totalShipping">
+              <em>Frais de livraison estimés</em>
+              <span class="d-flex justify-content-end">Gratuit</span>
+            </div>
+
+            <div class="text-center hidden-xs">
+              <a href="#" class="button btn btn-warning button-medium mt-3">
+                Valider ma commande
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

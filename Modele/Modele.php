@@ -1,7 +1,10 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 class ModeleWeb4Shop {
-    private $connexion;
-    public function ouvrirConnexion() {
+    public $connexion;
+    public function __construct() {
         try {
             $this->connexion = new PDO("mysql:host=localhost;dbname=web4shop", "root", null);
             $this->connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
