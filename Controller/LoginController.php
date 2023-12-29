@@ -2,10 +2,8 @@
 require __DIR__ . '\produits.php';
 class LoginController {
     private $modele;
-    public function __construct() {
-        $this->modele = new ModeleWeb4Shop();
-    }
     public function importerDonneeLogins() {
+        $this->modele = new ModeleWeb4Shop();
         $donneesLogins = $this->modele->importerTable("logins");
         $this->modele->fermerConnexion();
         return $donneesLogins;
@@ -21,12 +19,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($donnee['username'] == $username && (password_verify($password, $donnee['password']))) {
             $Validation = True;
             $_SESSION['connexion']=true;
+            $_SESSION['client']=[
+                'username' => $username,
+            ];
             break;
         }
     }
     if ($Validation==True){
-        $produit = new Produit();
-        $produit->import_products();
+        header("Location: allproducts.php");
+        exit();
     } else{
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__.'/../Templates');
         $twig = new \Twig\Environment($loader);

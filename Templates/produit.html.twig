@@ -28,9 +28,9 @@
       {% for c in categories %}
       {% if cat == c.id %}
         <li>
-          <a href="allproducts.php?cat={{c.id}}" class="nav-link px-2 text-secondary">{{c.name}}</a></li>
+          <a href="allproducts.php?cat={{c.id}}" class="nav-link px-2 text-secondary">{{c.name|capitalize}}</a></li>
         {% else %}
-        <li><a href="allproducts.php?cat={{c.id}}" class="nav-link px-2 text-white">{{c.name}}</a></li>
+        <li><a href="allproducts.php?cat={{c.id}}" class="nav-link px-2 text-white">{{c.name|capitalize}}</a></li>
       {% endif %}
       {% endfor %}
       
@@ -54,10 +54,14 @@
               />
             </svg>
           </a>
+          {% if connexion %}
+          <h4></h4>
+          {% else %}
           <a href="LoginController.php" class="btn btn-outline-light me-2">
             Login
           </a>
-          <a href="SignupController.php" class="btn btn-warning">Sign-up</a>
+          <a class="btn btn-warning" href="SignupController.php">Sign-up</a>
+          {% endif %}
         </div>
       </div>
     </header>

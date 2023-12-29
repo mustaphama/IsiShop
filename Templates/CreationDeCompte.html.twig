@@ -13,12 +13,29 @@
   </head>
   <body class="mx-auto" style="background-color: #0d1117">
     <div class="container d-flex justify-content-center align-items-center">
-      <main class="form-signin mx-auto" style="width: 325px">
+      <main class="form-signin mx-auto" style="width: 350px">
+        {% if erreur == true %}
+        <div
+          class="text-white border border-danger border-1 rounded-3 px-3 pt-3 mb-4"
+          style="background-color: #26181d"
+        >
+          <p>Echec de connection:</p>
+          <ul>
+            {% if 0 in ErreurArray %}
+            <li>Nom d'utilisateur déjà utilisé</li>
+            {% endif %} {% if 1 in ErreurArray %}
+            <li>Adresse email déjà utilisé</li>
+            {% endif %} {% if 2 in ErreurArray %}
+            <li>Les mots de passes sont incompatibles</li>
+            {% endif %}
+          </ul>
+        </div>
+        {% endif %}
         <div
           class="text-white p-3 border border-dark border-1 rounded-3 pb-1 pt-4"
           style="background-color: #161b22"
         >
-          <form action="../Controller/SignupController.php" method="post">
+          <form action="SignupController.php" method="post">
             <h1 class="h3 mb-3 fw-normal">Créez votre compte</h1>
             <div class="row">
               <div class="col">
@@ -30,6 +47,9 @@
                     id="floatingPassword"
                     placeholder="Nom"
                     name="Nom"
+                    pattern="^[A-Za-z]{2,}$"
+                    oninvalid="this.setCustomValidity('Le nom doit être constituer que par des lettres et qu il ait au moins 2 caractères')"
+                    oninput="this.setCustomValidity('')"
                   />
                   <label class="text-black opacity-50" for="floatingInput"
                     >Nom</label
@@ -45,6 +65,9 @@
                     id="floatingPassword"
                     placeholder="Prénom"
                     name="Prenom"
+                    pattern="^[A-Za-z]{2,}$"
+                    oninvalid="this.setCustomValidity('Le prénom doit être constituer que par des lettres et qu il ait au moins 2 caractères')"
+                    oninput="this.setCustomValidity('')"
                   />
                   <label class="text-black opacity-50" for="floatingInput"
                     >Prénom</label
@@ -103,6 +126,8 @@
                 placeholder="Password"
                 name="password"
                 pattern="^[A-Za-z0-9]{8,}$"
+                oninvalid="this.setCustomValidity('Le mot de passe doit être constitué de 8 caractères: au moins une majuscule, une miniscule et un chiffre.')"
+                oninput="this.setCustomValidity('')"
               />
               <label class="text-black opacity-50" for="floatingPassword"
                 >Mot de passe</label
@@ -129,10 +154,35 @@
                 class="form-control my-2"
                 id="floatingInput"
                 placeholder="Rue de la Twig"
-                name="Adresse"
+                name="Adresse1"
               />
               <label class="text-black opacity-50" for="floatingInput"
-                >Addresse</label
+                >Addresse 1</label
+              >
+            </div>
+            <div class="form-floating">
+              <input
+                type="text"
+                class="form-control my-2"
+                id="floatingInput"
+                placeholder="Appartement, 50"
+                name="Adresse2"
+              />
+              <label class="text-black opacity-50" for="floatingInput"
+                >Addresse 2 <i>(Optionnelle)</i></label
+              >
+            </div>
+            <div class="form-floating">
+              <input
+                required
+                type="text"
+                class="form-control my-2"
+                id="floatingInput"
+                placeholder="Lyon"
+                name="Adresse3"
+              />
+              <label class="text-black opacity-50" for="floatingInput"
+                >Addresse 3 <i>(Ville, État/Province, ...)</i></label
               >
             </div>
             <div class="form-floating">
@@ -141,6 +191,7 @@
                 type="text"
                 class="form-control my-2 text-black"
                 id="floatingInput"
+                name="Postcode"
                 placeholder="123456"
                 pattern="[0-9]{5}"
                 oninvalid="this.setCustomValidity('Marquez un numéro code postale valide')"
@@ -154,7 +205,7 @@
               class="btn w-100 text-black border mt-2 mb-2 border-0 py-2 btn-warning"
               type="submit"
             >
-              Se connecter
+              Créer un Compte
             </button>
             <p class="text-end">
               Vous avez déjà un compte?
