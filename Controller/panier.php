@@ -64,18 +64,10 @@ class Panier{
 
     }
 
-    public function enleve_order(){
+    // public function enleve_order(){
         
            
 
-    }
-
-    // public function start(){
-    //     if ($_SESSION['connexion']==false){
-    //         $_SESSION['panier'] = [];
-            
-    //     }
-        
     // }
 }
 

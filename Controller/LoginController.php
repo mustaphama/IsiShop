@@ -1,6 +1,5 @@
 <?php
-require_once(__DIR__ . '/../Modele/Modele.php');
-require_once(__DIR__ . '/../vendor/autoload.php');
+require __DIR__ . '\produits.php';
 class LoginController {
     private $modele;
     public function __construct() {
@@ -21,11 +20,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     foreach ($donnees as $donnee) {
         if ($donnee['username'] == $username && (password_verify($password, $donnee['password']))) {
             $Validation = True;
+            $_SESSION['connexion']=true;
             break;
         }
     }
     if ($Validation==True){
-        echo "Passe";
+        $produit = new Produit();
+        $produit->import_products();
     } else{
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__.'/../Templates');
         $twig = new \Twig\Environment($loader);
