@@ -54,10 +54,14 @@
               />
             </svg>
           </a>
+          {% if connexion %}
+          <h4></h4>
+          {% else %}
           <a href="LoginController.php" class="btn btn-outline-light me-2">
             Login
           </a>
-          <a href="SignupController.php" class="btn btn-warning">Sign-up</a>
+          <a class="btn btn-warning" href="SignupController.php">Sign-up</a>
+          {% endif %}
         </div>
       </div>
     </header>

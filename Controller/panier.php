@@ -55,27 +55,20 @@ class Panier{
         
         // $requete =$this->modele->connexion->query("select * from orderitems,products,orders where products.id=orderitems.product_id and 
         // customer_id = 1 and orders.id = orderitems.order_id and (orders.status = 0 or orders.status = 1)");
+        $connexion=isset($_SESSION['connexion']) ? $_SESSION['connexion'] : false;
         $categories = $this->modele->importerTable("categories");
         // $panier = $requete->fetchAll(PDO::FETCH_ASSOC);
         $this->modele->fermerConnexion();
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
         $twig = new \Twig\Environment($loader);
-        echo $twig->render('panier.html.twig', ['panier'=> $panier ,'categories' => $categories, 'total'=> $total]);
+        echo $twig->render('panier.html.twig', ['panier'=> $panier ,'categories' => $categories, 'total'=> $total,'connexion' => $connexion]);
 
     }
 
-    public function enleve_order(){
+    // public function enleve_order(){
         
            
 
-    }
-
-    // public function start(){
-    //     if ($_SESSION['connexion']==false){
-    //         $_SESSION['panier'] = [];
-            
-    //     }
-        
     // }
 }
 

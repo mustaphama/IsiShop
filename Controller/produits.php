@@ -20,9 +20,10 @@ class Produit{
         }
         $categories = $this->modele->importerTable("categories");
         $this->modele->fermerConnexion();
+        $connexion=isset($_SESSION['connexion']) ? $_SESSION['connexion'] : false;
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
         $twig = new \Twig\Environment($loader);
-        echo $twig->render('accueil.html.twig', ['products' => $products, 'cat' => $cat,'categories' => $categories]);
+        echo $twig->render('accueil.html.twig', ['products' => $products, 'cat' => $cat,'categories' => $categories,'connexion' => $connexion]);
     }
 
     public function getproduct () {
@@ -33,19 +34,21 @@ class Produit{
         $avis = $requete1->fetchAll(PDO::FETCH_ASSOC);
         $categories = $this->modele->importerTable("categories");
         $this->modele->fermerConnexion();
+        $connexion=isset($_SESSION['connexion']) ? $_SESSION['connexion'] : false;
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
         $twig = new \Twig\Environment($loader);
-        echo $twig->render('produit.html.twig', ['product' => $product,'avis' => $avis,'categories' => $categories]);
+        echo $twig->render('produit.html.twig', ['product' => $product,'avis' => $avis,'categories' => $categories,'connexion' => $connexion]);
     }
 
-    public function getcategorie() {
-        $cat=$_GET['cat'];
-        $requete = $this->modele->connexion->query(" select * from products,categories where products.cat_id=categories.id and categories.id=$cat");
-        $product = $requete->fetchAll(PDO::FETCH_ASSOC);
-        $this->modele->fermerConnexion();
-        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
-        $twig = new \Twig\Environment($loader);
-        echo $twig->render('produit.html.twig', ['product' => $product]);
-    }
+    // public function getcategorie() {
+    //     $cat=$_GET['cat'];
+    //     $requete = $this->modele->connexion->query(" select * from products,categories where products.cat_id=categories.id and categories.id=$cat");
+    //     $product = $requete->fetchAll(PDO::FETCH_ASSOC);
+    //     $this->modele->fermerConnexion();
+    //     $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
+    //     $twig = new \Twig\Environment($loader);
+    //     $connexion=isset($_SESSION['connexion']) ? $_SESSION['connexion'] : false;
+    //     echo $twig->render('produit.html.twig', ['product' => $product,'connexion' => $connexion]);
+    // }
 
 }

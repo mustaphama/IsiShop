@@ -38,7 +38,7 @@
             <a
               href="allproducts.php?cat={{ c.id }}"
               class="nav-link px-2 text-secondary"
-              >{{ c.name|capitalize }}</a
+              >{{ c.name | capitalize }}</a
             >
           </li>
           {% else %}
@@ -46,7 +46,7 @@
             <a
               href="allproducts.php?cat={{ c.id }}"
               class="nav-link px-2 text-white"
-              >{{ c.name|capitalize }}</a
+              >{{ c.name | capitalize }}</a
             >
           </li>
           {% endif %} {% endfor %}
@@ -70,20 +70,24 @@
               />
             </svg>
           </a>
+          {% if connexion %}
+          <h4></h4>
+          {% else %}
           <a href="LoginController.php" class="btn btn-outline-light me-2">
             Login
           </a>
-          <a href="SignupController.php" class="btn btn-warning">Sign-up</a>
+          <a class="btn btn-warning" href="SignupController.php">Sign-up</a>
+          {% endif %}
         </div>
       </div>
     </header>
     <div class="row mt-3">
       <div class="col-md-1"></div>
       <div class="col-md-7">
-        <div class="text-center border border-dark rounded bg-warning text-emphasis-secondary mt-2 mb-4">
-          <h2 class="title font-weight-bold">
-            Mon Panier
-          </h2>
+        <div
+          class="text-center border border-dark rounded bg-warning text-emphasis-secondary mt-2 mb-4"
+        >
+          <h2 class="title font-weight-bold">Mon Panier</h2>
         </div>
         {% for p in panier %}
         <form method="post" action="orderitems.php">
