@@ -5,12 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0e02769-2990-4082-a290-9c1cd0da61c6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/CreationDeCompte.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Html-PHP - caractères accentués et l'UTF8.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PHP Projet shopping Bag 23-24.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PageConec.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accueil.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web4shop23-24.sql" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controller/SignupController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controller/allproducts.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controller/getproduit.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controller/orderitems.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controller/panier.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controller/produits.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Templates/CreationDeCompte.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Templates/accueil.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Templates/panier.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Templates/produit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/CreationDeCompte.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/PageConec.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/PageConec.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller/Controller1.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/LoginController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modele/Modele.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modele/Modele.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,21 +54,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Melab",
-    "last_opened_file_path": "C:/xampp/htdocs/WebProjet",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Melab&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/WebProjet&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="PageConec.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" engineId="53e2f627-b1a7-4dfa-bfa7-5b83cc034776" uri="http://localhost:63342/WebProjet/Code/PageConec.html" useBuiltInWebServerPort="true">
       <method v="2" />
