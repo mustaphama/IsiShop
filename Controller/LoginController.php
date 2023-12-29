@@ -3,10 +3,8 @@ require_once(__DIR__ . '/../Modele/Modele.php');
 require_once(__DIR__ . '/../vendor/autoload.php');
 class LoginController {
     private $modele;
-    public function __construct() {
-        $this->modele = new ModeleWeb4Shop();
-    }
     public function importerDonneeLogins() {
+        $this->modele = new ModeleWeb4Shop();
         $donneesLogins = $this->modele->importerTable("logins");
         $this->modele->fermerConnexion();
         return $donneesLogins;
@@ -25,7 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     if ($Validation==True){
-        echo "Passe";
+        header("allproducts.php");
+        exit();
     } else{
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__.'/../Templates');
         $twig = new \Twig\Environment($loader);

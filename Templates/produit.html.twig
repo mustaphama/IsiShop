@@ -28,9 +28,9 @@
       {% for c in categories %}
       {% if cat == c.id %}
         <li>
-          <a href="allproducts.php?cat={{c.id}}" class="nav-link px-2 text-secondary">{{c.name}}</a></li>
+          <a href="allproducts.php?cat={{c.id}}" class="nav-link px-2 text-secondary">{{c.name|capitalize}}</a></li>
         {% else %}
-        <li><a href="allproducts.php?cat={{c.id}}" class="nav-link px-2 text-white">{{c.name}}</a></li>
+        <li><a href="allproducts.php?cat={{c.id}}" class="nav-link px-2 text-white">{{c.name|capitalize}}</a></li>
       {% endif %}
       {% endfor %}
       

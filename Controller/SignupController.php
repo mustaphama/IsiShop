@@ -3,20 +3,20 @@ require_once(__DIR__ . '/../Modele/Modele.php');
 require_once(__DIR__ . '/../vendor/autoload.php');
 class SignupController {
     private $modele;
-    public function __construct() {
-        $this->modele = new ModeleWeb4Shop();
-    }
     public function importerDonneeLogins():array {
+        $this->modele = new ModeleWeb4Shop();
         $donneesLogins = $this->modele->importerTable("logins");
         $this->modele->fermerConnexion();
         return $donneesLogins;
     }
     public function importerDonneeUtilisateurs():array {
+        $this->modele = new ModeleWeb4Shop();
         $donneesUtil = $this->modele->importerTable("customers");
         $this->modele->fermerConnexion();
         return $donneesUtil;
     }
     public function nouveauUtilisateur($forname, $surname, $add1, $add2, $add3, $postcode, $phone, $email, $username, $password) {
+        $this->modele = new ModeleWeb4Shop();
         $this->modele->createUser($forname, $surname, $add1, $add2, $add3, $postcode, $phone, $email, $username, $password);
         $this->modele->fermerConnexion();
     }
@@ -55,7 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo $twig->render('CreationDeCompte.html.twig',['erreur'=>true,'ErreurArray'=>$Erreur]);
     }
     else{
-        $controller->nouveauUtilisateur($_POST["Prenom"],$_POST["Nom"],$_POST["Adresse"],'NULL','NULL',$_POST["Postcode"],$_POST["PhoneNumber"],$_POST["email"],$_POST["username"],$_POST["password"]);
+        $controller->nouveauUtilisateur($_POST["Prenom"],$_POST["Nom"],$_POST["Adresse1"],$_POST["Adresse2"],$_POST["Adresse3"],$_POST["Postcode"],$_POST["PhoneNumber"],$_POST["email"],$_POST["username"],$_POST["password"]);
+        header("allproducts.php");
+        exit();
     }
 }
 else{
