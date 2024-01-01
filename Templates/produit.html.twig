@@ -55,7 +55,12 @@
             </svg>
           </a>
           {% if connexion %}
-          <h4></h4>
+          <form method="post" action="allproducts.php">
+            <button name="deconnexion" class="btn btn-outline-light me-2">
+              Logout
+            </button>
+          </form>
+          <h5></h5>
           {% else %}
           <a href="LoginController.php" class="btn btn-outline-light me-2">
             Login

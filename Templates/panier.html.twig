@@ -71,7 +71,12 @@
             </svg>
           </a>
           {% if connexion %}
-          <h4></h4>
+          <form method="post" action="allproducts.php">
+            <button name="deconnexion" class="btn btn-outline-light me-2">
+              Logout
+            </button>
+          </form>
+          <h5></h5>
           {% else %}
           <a href="LoginController.php" class="btn btn-outline-light me-2">
             Login
@@ -120,7 +125,7 @@
 
             <div class="row">
               <img
-                src="../productimages/{{ p.img }}"
+                src="../productimages/{{ p.image }}"
                 width="10%"
                 height="60%"
                 class="h-auto m-3 col-md-2"
@@ -131,15 +136,15 @@
                     class="col-md-3"
                     style="font-family: Arial, Helvetica, sans-serif"
                   >
-                    {{ p.nom }}
+                    {{ p.name }}
                   </h4>
                   <div class="col-md-1"></div>
-                  <span class="col-md-3">Quantité : {{ p.quantite }}</span>
+                  <span class="col-md-3">Quantité : {{ p.quantity }}</span>
                   <h5 class="m-2 col-md-3 offset-md-3">
-                    <strong>{{ p.prix * p.quantite }}$</strong>
+                    <strong>{{ p.price * p.quantity }}$</strong>
                   </h5>
                 </div>
-                <p class="row">{{ p.prix }}$</p>
+                <p class="row">{{ p.price }}$</p>
               </div>
             </div>
           </div>

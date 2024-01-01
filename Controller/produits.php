@@ -11,6 +11,11 @@ class Produit{
 
     public function import_products () {
         // $mod = new Modele();
+        if(isset($_POST['deconnexion'])){
+            $_SESSION['connexion']=false;
+            $_SESSION['panier']=[];
+            $_SESSION['total']=0;
+        }
         $cat=isset($_GET['cat']) ? $_GET['cat'] : null;
         if ($cat ==null){
             $products = $this->modele->importerTable("products");
