@@ -10,7 +10,6 @@ class Produit{
 
 
     public function import_products () {
-        // $mod = new Modele();
         if(isset($_POST['deconnexion'])){
             $_SESSION['connexion']=false;
             $_SESSION['panier']=[];
@@ -43,6 +42,16 @@ class Produit{
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
         $twig = new \Twig\Environment($loader);
         echo $twig->render('produit.html.twig', ['product' => $product,'avis' => $avis,'categories' => $categories,'connexion' => $connexion]);
+    }
+
+    public function top5(){
+        $products = $this->modele->bestprod();
+        $categories = $this->modele->importerTable("categories");
+        $this->modele->fermerConnexion();
+        $connexion=isset($_SESSION['connexion']) ? $_SESSION['connexion'] : false;
+        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
+        $twig = new \Twig\Environment($loader);
+        echo $twig->render('top5.html.twig', ['products' => $products,'categories' => $categories,'connexion' => $connexion]);
     }
 
     // public function getcategorie() {
