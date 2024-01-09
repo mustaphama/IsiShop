@@ -1,6 +1,8 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
+    if (!isset($_SESSION['connexion'])){$_SESSION['connexion'] = false; }
+    
 }
 class ModeleWeb4Shop {
     public $connexion;
@@ -59,7 +61,8 @@ class ModeleWeb4Shop {
             $addinsert->execute();
             $lastadd = $this->connexion->lastInsertId();
             $sessionid = session_id();
-            $ordersins =$this->connexion->prepare("INSERT INTO orders (customer_id,registered,delivery_add_id,payment_type, date , status , session,total) VALUES (:customer_id,1,:delivery_add_id,NULL,NULL,0,:session ,0)");
+            $ordersins =$this->connexion->prepare("INSERT INTO orders (customer_id,registered,delivery_add_id,payment_type, date , status , session,total) 
+            VALUES (:customer_id,1,:delivery_add_id,NULL,NULL,0,:session ,0)");
             $ordersins->bindParam(':customer_id', $customerId);
             $ordersins->bindParam(':delivery_add_id', $lastadd);
             $ordersins->bindParam(':session', $sessionid);
@@ -120,7 +123,36 @@ class ModeleWeb4Shop {
             return false;
         }
         
-    }   
+    } 
+
+    public function ChangeStatus($orderid){
+        $status = 10;
+        try {
+            $changement = $this->connexion->prepare("UPDATE orders SET status = :status WHERE id =:order_id");
+            $changement->bindParam(':order_id',$orderid,PDO::PARAM_INT);
+            $changement->bindParam(':status',$status,PDO::PARAM_INT);
+            $changement->execute();
+            return true;
+        }catch (PDOException $e) {
+            $this->connexion->rollBack();
+            echo "Échec de la requête SQL  de modification de status : " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function bestprod(){
+        $requete = $this->connexion->query("SELECT p.id AS id, p.name AS name,p.image As image , p.description AS description, p.price AS price, SUM(o.quantity) AS total_sold
+        FROM products p
+        JOIN orderitems o ON p.id = o.product_id
+        GROUP BY p.id
+        ORDER BY total_sold DESC
+        LIMIT 5;
+        ");
+
+        $donnees = $requete->fetchAll(PDO::FETCH_ASSOC);
+        return $donnees;
+
+    }
 
     public function fermerConnexion() {
         $this->connexion = null;

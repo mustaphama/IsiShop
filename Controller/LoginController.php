@@ -47,6 +47,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             break;
         }
     }
+    if ($Validation==False){
+        $donnees = $login->modele->importerTable("admin");
+        $login->modele->fermerConnexion();
+        if ($donnees[0]['username'] == $username && $donnees[0]['password'] == $password) {
+            session_unset();
+            session_destroy();
+            header("Location: admin.php");
+            exit();
+        }
+
+    }
     if ($Validation==True){
         header("Location: allproducts.php");
         exit();
