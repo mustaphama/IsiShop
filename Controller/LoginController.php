@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '\produits.php';
+require_once __DIR__ . '\produits.php';
 class LoginController {
     public $modele;
 
@@ -19,21 +19,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
     $controller = new LoginController();
     $donnees = $controller->importerDonneeLogins();
+    $hashedEnteredPassword = hash('sha1', $password);
     foreach ($donnees as $donnee) {
-        if ($donnee['username'] == $username && (password_verify($password, $donnee['password']))) {
+        if ($donnee['username'] == $username && ($donnee['password']===$hashedEnteredPassword)) {
             $Validation = True;
             session_unset();
             session_destroy();
             session_start();
             $_SESSION['connexion']=true;
-            $requete=$login->modele->connexion->prepare("SELECT o.id , o.total FROM orders o join logins l on o.customer_id = l.customer_id  where username = :username");
-            $requete->bindParam(':username',$username);
-            $requete->execute();
-            $info = $requete->fetchAll(PDO::FETCH_ASSOC);
+            $info = $login->modele->import_info_commande($username);
             
             $orderid = $info[0]['id'];
-            $requete2 = $login->modele->connexion->query("SELECT p.id , p.name , p.price,o.quantity,p.image  FROM orderitems o join products p on o.product_id=p.id  where order_id = $orderid");
-            $commandes = $requete2->fetchAll(PDO::FETCH_ASSOC);
+            $commandes = $login->modele->recuperer_commande($orderid);
             foreach($commandes as $command){
                 $_SESSION['panier'][$command['id']] =$command;
             }
@@ -50,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($Validation==False){
         $donnees = $login->modele->importerTable("admin");
         $login->modele->fermerConnexion();
-        if ($donnees[0]['username'] == $username && $donnees[0]['password'] == $password) {
+        if ($donnees[0]['username'] == $username && ($donnees[0]['password']===$hashedEnteredPassword)) {
             session_unset();
             session_destroy();
             header("Location: admin.php");

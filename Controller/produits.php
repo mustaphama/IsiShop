@@ -1,6 +1,6 @@
 <?php
-include __DIR__ . '/../modele/Modele.php';
-include __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../modele/Modele.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 class Produit{
     public $modele;
 
@@ -11,58 +11,54 @@ class Produit{
 
     public function import_products () {
         if(isset($_POST['deconnexion'])){
+            //s'il se déconnecte on initialise tout
             $_SESSION['connexion']=false;
             $_SESSION['panier']=[];
             $_SESSION['total']=0;
+        }
+        if (isset($_SESSION['panier'])){
+            $nb_prod = count($_SESSION['panier']);
         }
         $cat=isset($_GET['cat']) ? $_GET['cat'] : null;
         if ($cat ==null){
             $products = $this->modele->importerTable("products");
         }else{
-            $requete = $this->modele->connexion->query(" select products.id, products.name, products.description, products.image, products.price, products.quantity from products,categories where products.cat_id=categories.id and categories.id=$cat");
-            $products = $requete->fetchAll(PDO::FETCH_ASSOC);
+            $products = $this->modele->import_category($cat);
         }
         $categories = $this->modele->importerTable("categories");
         $this->modele->fermerConnexion();
         $connexion=isset($_SESSION['connexion']) ? $_SESSION['connexion'] : false;
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
         $twig = new \Twig\Environment($loader);
-        echo $twig->render('accueil.html.twig', ['products' => $products, 'cat' => $cat,'categories' => $categories,'connexion' => $connexion]);
+        echo $twig->render('accueil.html.twig', ['products' => $products, 'cat' => $cat,'categories' => $categories,'connexion' => $connexion,'nb_prod'=>$nb_prod]);
     }
 
     public function getproduct () {
         $id=isset($_GET['prod']) ? $_GET['prod'] : null;
-        $requete = $this->modele->connexion->query("select * from products where id= $id");
-        $product = $requete->fetchAll(PDO::FETCH_ASSOC);
-        $requete1 = $this->modele->connexion->query("select * from reviews where id_product= $id");
-        $avis = $requete1->fetchAll(PDO::FETCH_ASSOC);
+        $product = $this->modele->import_produit($id);
+        $avis = $this->modele->import_avis($id);
         $categories = $this->modele->importerTable("categories");
         $this->modele->fermerConnexion();
+        if (isset($_SESSION['panier'])){
+            $nb_prod = count($_SESSION['panier']);
+        }
         $connexion=isset($_SESSION['connexion']) ? $_SESSION['connexion'] : false;
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
         $twig = new \Twig\Environment($loader);
-        echo $twig->render('produit.html.twig', ['product' => $product,'avis' => $avis,'categories' => $categories,'connexion' => $connexion]);
+        echo $twig->render('produit.html.twig', ['product' => $product,'avis' => $avis,'categories' => $categories,'connexion' => $connexion,'nb_prod'=>$nb_prod]);
     }
 
     public function top5(){
         $products = $this->modele->bestprod();
         $categories = $this->modele->importerTable("categories");
         $this->modele->fermerConnexion();
+        if (isset($_SESSION['panier'])){
+            $nb_prod = count($_SESSION['panier']);
+        }
         $connexion=isset($_SESSION['connexion']) ? $_SESSION['connexion'] : false;
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
         $twig = new \Twig\Environment($loader);
-        echo $twig->render('top5.html.twig', ['products' => $products,'categories' => $categories,'connexion' => $connexion]);
+        echo $twig->render('top5.html.twig', ['products' => $products,'categories' => $categories,'connexion' => $connexion,'nb_prod'=>$nb_prod]);
     }
-
-    // public function getcategorie() {
-    //     $cat=$_GET['cat'];
-    //     $requete = $this->modele->connexion->query(" select * from products,categories where products.cat_id=categories.id and categories.id=$cat");
-    //     $product = $requete->fetchAll(PDO::FETCH_ASSOC);
-    //     $this->modele->fermerConnexion();
-    //     $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
-    //     $twig = new \Twig\Environment($loader);
-    //     $connexion=isset($_SESSION['connexion']) ? $_SESSION['connexion'] : false;
-    //     echo $twig->render('produit.html.twig', ['product' => $product,'connexion' => $connexion]);
-    // }
 
 }

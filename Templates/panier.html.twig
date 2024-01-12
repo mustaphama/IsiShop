@@ -94,7 +94,12 @@
         </div>
         {% for p in panier %}
         <form method="post" action="orderitems.php">
-          <div class="card h-auto shadow" style="position: relative">
+          <div
+            class="card h-auto shadow"
+            style="position: relative"
+            data-bs-placement="top"
+            title="{{ p.name }}"
+          >
             <input type="hidden" name="p" value="{{ p.id }}" />
             <button
               name="supprime"
@@ -139,7 +144,7 @@
                   <div class="col-md-1"></div>
                   <span class="col-md-3">Quantité : {{ p.quantity }}</span>
                   <h5 class="m-2 col-md-3 offset-md-3">
-                    <strong>{{ p.price * p.quantity }}$</strong>
+                    <strong>{{ p.price * p.quantity }}€</strong>
                   </h5>
                 </div>
                 <p class="row">{{ p.price }}€</p>
@@ -156,20 +161,22 @@
           <div>
             <div>
               <small>Produits</small>
+              {% for p in panier %}
               <span class="amount d-flex justify-content-end"
-                ><small>{{ total }} $</small></span
+                ><small>{{ p.price * p.quantity }} €</small></span
               >
+              {% endfor %}
             </div>
 
             <div>
               <strong>Total</strong>
               <span class="amount d-flex justify-content-end"
-                ><strong>{{ total }} $</strong>
+                ><strong>{{ total }} €</strong>
               </span>
             </div>
             <hr />
 
-            <div class="delivery-total glopal-hide" id="totalShipping">
+            <div>
               <em>Frais de livraison estimés</em>
               <span class="d-flex justify-content-end">Gratuit</span>
             </div>
