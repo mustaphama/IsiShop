@@ -1,6 +1,6 @@
 <?php
-include __DIR__ . '/../modele/Modele.php';
-include __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../modele/Modele.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 class Admin {
     public $modele;
@@ -14,8 +14,7 @@ class Admin {
             $orderid = $_POST['order'];
             $this->modele->ChangeStatus($orderid);
         }
-        $requete = $this->modele->connexion->query(" select * from orders where status=2 union select * from orders where status=10");
-        $orders = $requete->fetchAll(PDO::FETCH_ASSOC);
+        $orders = $this->modele->import_commande();
         $this->modele->fermerConnexion();
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
         $twig = new \Twig\Environment($loader);

@@ -1,5 +1,6 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
+    //démarrer une session s'il y en pas 
     session_start();
     if (!isset($_SESSION['connexion'])){$_SESSION['connexion'] = false; }
     
@@ -15,6 +16,8 @@ class ModeleWeb4Shop {
         }
     }
 
+
+    //importer la table passer en parametre
     public function importerTable($table) {
         $sql = "SELECT * FROM $table";
         try {
@@ -27,6 +30,8 @@ class ModeleWeb4Shop {
             die("Échec de la requête SQL : " . $e->getMessage());
         }
     }
+
+    // cette fonction sert à remplir les tables orders,customers,login,delivery_add au moment de la création d'un compte
     public function createUser($forname, $surname, $add1, $add2, $add3, $postcode, $phone, $email, $username, $password) {
         $this->connexion->beginTransaction();
         try {
@@ -44,7 +49,7 @@ class ModeleWeb4Shop {
             $customerId = $this->connexion->lastInsertId();
             $loginQuery = "INSERT INTO logins (id, customer_id, username, password) VALUES (:id, :id, :username, :password)";
             $loginStmt = $this->connexion->prepare($loginQuery);
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $hashedPassword = hash('sha1', $password);//hashage du mots de passe avant son insertion dans la base de données
             $loginStmt->bindParam(':id', $customerId);
             $loginStmt->bindParam(':username', $username);
             $loginStmt->bindParam(':password', $hashedPassword);
@@ -77,6 +82,8 @@ class ModeleWeb4Shop {
         }
     }
 
+
+    //ajoute le produit à la table orderitems qui représente le panier
     public function ajout_produit($orderid,$productid,$quantity){
         $this->connexion->beginTransaction();
         try {
@@ -94,6 +101,8 @@ class ModeleWeb4Shop {
         }
     }
 
+
+    // supprime un produit de la table orderitems
     public function supprime_produit($idproduit){
         $this->connexion->beginTransaction();
         try {
@@ -109,6 +118,8 @@ class ModeleWeb4Shop {
         }
     }
 
+
+    //mets à jour la quantité d'un produit d'une commande passer en parametre
     public function augmente_quantity($quantity, $idproduit,$orderid){
         try{
             $augmentation = $this->connexion->prepare("UPDATE orderitems SET quantity = :quantity WHERE order_id = :order_id AND product_id = :product_id");
@@ -125,6 +136,8 @@ class ModeleWeb4Shop {
         
     } 
 
+
+    //change le status dans la table orders
     public function ChangeStatus($orderid){
         $status = 10;
         try {
@@ -140,6 +153,8 @@ class ModeleWeb4Shop {
         }
     }
 
+
+    //donne nous la table des produits les plus vendus
     public function bestprod(){
         $requete = $this->connexion->query("SELECT p.id AS id, p.name AS name,p.image As image , p.description AS description, p.price AS price, SUM(o.quantity) AS total_sold
         FROM products p
@@ -154,6 +169,54 @@ class ModeleWeb4Shop {
 
     }
 
+
+    //cette fonction sert à donner la liste des produits dela categorie passer en parametre
+    public function import_category($cat){
+        $requete = $this->connexion->query(" select products.id, products.name, products.description, products.image, products.price, products.quantity from products,categories where products.cat_id=categories.id and categories.id=$cat");
+        $products = $requete->fetchAll(PDO::FETCH_ASSOC);
+        return $products;
+    }
+
+    // importer le produit de l'id passer en parametre
+    public function import_produit($id){
+        $requete = $this->connexion->query("select * from products where id= $id");
+        $product = $requete->fetchAll(PDO::FETCH_ASSOC);
+        return $product;
+    }
+
+    //importer les avis du produit
+    public function import_avis($id){
+        $requete1 = $this->connexion->query("select * from reviews where id_product= $id");
+        $avis = $requete1->fetchAll(PDO::FETCH_ASSOC);
+        return $avis;
+    }
+
+
+    //importer les commandes confirmer ou à confirmer
+    public function import_commande(){
+        $requete = $this->connexion->query(" select * from orders where status=2 union select * from orders where status=10");
+        $orders = $requete->fetchAll(PDO::FETCH_ASSOC);
+        return $orders;
+    }
+
+    //importer les informations de la commande d'un client
+    public function import_info_commande($username){
+        $requete=$this->connexion->prepare("SELECT o.id , o.total FROM orders o join logins l on o.customer_id = l.customer_id  where username = :username");
+        $requete->bindParam(':username',$username);
+        $requete->execute();
+        $info = $requete->fetchAll(PDO::FETCH_ASSOC);
+        return $info;
+    }
+
+    //récuperer les produits de la commande d'un client à partir de son id
+    public function recuperer_commande($orderid){
+        $requete2 = $this->connexion->query("SELECT p.id , p.name , p.price,o.quantity,p.image  FROM orderitems o join products p on o.product_id=p.id  where order_id = $orderid");
+        $commandes = $requete2->fetchAll(PDO::FETCH_ASSOC);
+        return $commandes;
+    }
+
+
+    //ferme la connexion avec la base de données
     public function fermerConnexion() {
         $this->connexion = null;
     }
