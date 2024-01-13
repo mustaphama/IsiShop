@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f0e02769-2990-4082-a290-9c1cd0da61c6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Controller/SignupController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controller/allproducts.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controller/getproduit.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controller/orderitems.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controller/panier.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controller/produits.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Templates/CreationDeCompte.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Templates/accueil.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Templates/panier.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Templates/produit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/CreationDeCompte.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/PageConec.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/PageConec.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller/Controller1.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Controller/LoginController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modele/Modele.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modele/Modele.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\xampp\php\php.exe">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/vendor/twig/twig" />
+    </include_path>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2ZAiZ5zmWBQ8cz6MF8WFKb8IwCl" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Melab&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/WebProjet&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="PageConec.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" engineId="53e2f627-b1a7-4dfa-bfa7-5b83cc034776" uri="http://localhost:63342/WebProjet/Code/PageConec.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.PageConec.html" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f0e02769-2990-4082-a290-9c1cd0da61c6" name="Changes" comment="" />
+      <created>1701871336569</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1701871336569</updated>
+      <workItem from="1701871337602" duration="1586000" />
+      <workItem from="1701890109465" duration="56000" />
+      <workItem from="1701890324833" duration="6656000" />
+      <workItem from="1701935227306" duration="223000" />
+      <workItem from="1701939580799" duration="1481000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -30,8 +30,126 @@ class ModeleWeb4Shop {
             die("Échec de la requête SQL : " . $e->getMessage());
         }
     }
+    public function fillChart($orderId, $productsid,$quantity) {
+        $this->connexion->beginTransaction();
+        try {
+            $ordersins =$this->connexion->prepare("INSERT INTO orderitems(order_id, quantity, product_id) VALUES(:order_id, :product_id, :quantity);");
+            $ordersins->bindParam(':order_id', $orderId);
+            $ordersins->bindParam(':product_id', $productsid);
+            $ordersins->bindParam(':quantity', $quantity);
+            $ordersins->execute();
+            $this->connexion->commit();
 
-    // cette fonction sert à remplir les tables orders,customers,login,delivery_add au moment de la création d'un compte
+        } catch (PDOException $e) {
+            $this->connexion->rollBack();
+            echo "Échec de la requête SQL : " . $e->getMessage();
+            return false;
+        }
+    }
+    public function addAdresstoOrder($orderId, $delivery_add) {
+        $this->connexion->beginTransaction();
+        try {
+            $ordersins =$this->connexion->prepare("UPDATE orders SET status = 1, delivery_add_id = :delivery_add_id WHERE id = :order_id;");
+            $ordersins->bindParam(':order_id', $orderId);
+            $ordersins->bindParam(':delivery_add_id', $delivery_add);
+            $ordersins->execute();
+            $this->connexion->commit();
+
+        } catch (PDOException $e) {
+            $this->connexion->rollBack();
+            echo "Échec de la requête SQL : " . $e->getMessage();
+            return false;
+        }
+    }
+    public function UpdateOrder($orderId, $methodePaiement) {
+        $this->connexion->beginTransaction();
+        try {
+            $ordersins =$this->connexion->prepare("UPDATE orders SET status = 2, payment_type = :payment_type, date = :date WHERE id = :order_id;");
+            $ordersins->bindParam(':order_id', $orderId);
+            $ordersins->bindParam(':payment_type', $methodePaiement);
+            $ordersins->bindParam(':date', date('Y-m-d'));
+            $ordersins->execute();
+            $this->connexion->commit();
+
+        } catch (PDOException $e) {
+            $this->connexion->rollBack();
+            echo "Échec de la requête SQL : " . $e->getMessage();
+            return false;
+        }
+    }
+    public function addOrdersUnregistred($customerId, $delivery_add, $status) {
+        $this->connexion->beginTransaction();
+        try {
+            $sessionid = session_id();
+            $ordersins =$this->connexion->prepare("INSERT INTO orders (customer_id,registered,delivery_add_id,payment_type, date , status , session,total) 
+            VALUES (:customer_id,1,:delivery_add_id,NULL,NULL,:status,:session ,:total)");
+            $total = isset($_SESSION['total']) ? $_SESSION['total'] : 0;
+            $ordersins->bindParam(':total', $total);
+            $ordersins->bindParam(':status', $status);
+            $ordersins->bindParam(':customer_id', $customerId);
+            $ordersins->bindParam(':delivery_add_id', $delivery_add);
+            $ordersins->bindParam(':session', $sessionid);
+            $ordersins->execute();
+            $Id = $this->connexion->lastInsertId();
+            $this->connexion->commit();
+            return $Id;
+
+        } catch (PDOException $e) {
+            $this->connexion->rollBack();
+            echo "Échec de la requête SQL : " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function addDeliveryAddress($firstname, $lastname, $add1, $add2, $add3, $postcode, $phone, $email) {
+        $this->connexion->beginTransaction();
+        try {
+            $customerQuery = "INSERT INTO delivery_addresses (firstname, lastname, add1, add2, city, postcode, phone, email, registered) VALUES (:firstname, :lastname, :add1, :add2, :add3, :postcode, :phone, :email)";
+            $customerStmt = $this->connexion->prepare($customerQuery);
+            $customerStmt->bindParam(':firstname', $firstname);
+            $customerStmt->bindParam(':lastname', $lastname);
+            $customerStmt->bindParam(':add1', $add1);
+            $customerStmt->bindParam(':add2', $add2);
+            $customerStmt->bindParam(':add3', $add3);
+            $customerStmt->bindParam(':postcode', $postcode);
+            $customerStmt->bindParam(':phone', $phone);
+            $customerStmt->bindParam(':email', $email);
+            $customerStmt->execute();
+            $deliveryId = $this->connexion->lastInsertId();
+            $this->connexion->commit();
+
+            return $deliveryId;
+        } catch (PDOException $e) {
+            $this->connexion->rollBack();
+            echo "Échec de la requête SQL : " . $e->getMessage();
+            return false;
+        }
+    }
+    public function createUnregistredUser($forname, $surname, $add1, $add2, $add3, $postcode, $phone, $email) {
+        $this->connexion->beginTransaction();
+        try {
+            $customerQuery = "INSERT INTO customers (forname, surname, add1, add2, add3, postcode, phone, email, registered) VALUES (:forname, :surname, :add1, :add2, :add3, :postcode, :phone, :email, 1)";
+            $customerStmt = $this->connexion->prepare($customerQuery);
+            $customerStmt->bindParam(':forname', $forname);
+            $customerStmt->bindParam(':surname', $surname);
+            $customerStmt->bindParam(':add1', $add1);
+            $customerStmt->bindParam(':add2', $add2);
+            $customerStmt->bindParam(':add3', $add3);
+            $customerStmt->bindParam(':postcode', $postcode);
+            $customerStmt->bindParam(':phone', $phone);
+            $customerStmt->bindParam(':email', $email);
+            $customerStmt->execute();
+            $customerId = $this->connexion->lastInsertId();
+            $this->connexion->commit();
+
+            return $customerId;
+        } catch (PDOException $e) {
+            $this->connexion->rollBack();
+            echo "Échec de la requête SQL : " . $e->getMessage();
+            return false;
+        }
+    }
+        // cette fonction sert à remplir les tables orders,customers,login,delivery_add au moment de la création d'un compte
     public function createUser($forname, $surname, $add1, $add2, $add3, $postcode, $phone, $email, $username, $password) {
         $this->connexion->beginTransaction();
         try {
@@ -207,14 +325,26 @@ class ModeleWeb4Shop {
         $info = $requete->fetchAll(PDO::FETCH_ASSOC);
         return $info;
     }
+    public function UsersAdressData($customerUsername){
+        $sql = "SELECT forname,surname,phone,email,add1,add2,add3,postcode FROM `customers` c 
+        JOIN logins l on c.id=l.customer_id
+        WHERE username='$customerUsername';";
+        try {
+            $requete = $this->connexion->query($sql);
 
+            $donnees = $requete->fetchAll(PDO::FETCH_ASSOC);
+
+            return $donnees;
+        } catch (PDOException $e) {
+            die("Échec de la requête SQL : " . $e->getMessage());
+        }
+    }
     //récuperer les produits de la commande d'un client à partir de son id
     public function recuperer_commande($orderid){
         $requete2 = $this->connexion->query("SELECT p.id , p.name , p.price,o.quantity,p.image  FROM orderitems o join products p on o.product_id=p.id  where order_id = $orderid");
         $commandes = $requete2->fetchAll(PDO::FETCH_ASSOC);
         return $commandes;
     }
-
 
     //ferme la connexion avec la base de données
     public function fermerConnexion() {

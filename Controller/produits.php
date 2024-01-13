@@ -3,6 +3,7 @@ require_once __DIR__ . '/../modele/Modele.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 class Produit{
     public $modele;
+    public int $nb_prod=0;
 
     public function __construct() {
         $this->modele = new ModeleWeb4Shop();
@@ -18,6 +19,9 @@ class Produit{
         }
         if (isset($_SESSION['panier'])){
             $nb_prod = count($_SESSION['panier']);
+        }
+        else{
+            $nb_prod=0;
         }
         $cat=isset($_GET['cat']) ? $_GET['cat'] : null;
         if ($cat ==null){
@@ -42,6 +46,9 @@ class Produit{
         if (isset($_SESSION['panier'])){
             $nb_prod = count($_SESSION['panier']);
         }
+        else{
+            $nb_prod=0;
+        }
         $connexion=isset($_SESSION['connexion']) ? $_SESSION['connexion'] : false;
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
         $twig = new \Twig\Environment($loader);
@@ -54,6 +61,9 @@ class Produit{
         $this->modele->fermerConnexion();
         if (isset($_SESSION['panier'])){
             $nb_prod = count($_SESSION['panier']);
+        }
+        else{
+            $nb_prod=0;
         }
         $connexion=isset($_SESSION['connexion']) ? $_SESSION['connexion'] : false;
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
