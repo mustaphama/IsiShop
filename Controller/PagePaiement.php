@@ -19,6 +19,12 @@ class PagePaiement {
         $this->modele->UpdateOrder($orderid,$methodePaiement);
         $this->modele->fermerConnexion();
     }
+    public function import_cat(){
+        $this->modele = new ModeleWeb4Shop();
+        $categorie = $this->modele->importerTable("categories");
+        $this->modele->fermerConnexion();
+        return $categorie;
+    }
 }
 $controller = new PagePaiement();
 $totalEnsemble=0;
@@ -61,75 +67,78 @@ $pdf->Output('../Ressources/Facture.pdf', 'F');
 $clientID = 'AaNHGH6tny4fFZ3pGu60p5dI7m6wKL9GO2hR7X3jTHWu0vUE3s_vL5mFxuOYlti6RsDEX9q_luYetV2Y';
 $secret = 'EPuOlLNmFra-twQn6yZLg6YjdHjgQhnRYUNGwKVQXV9D6rwGWcB7VjMJuZjzjS6uWc8oMbGwEW4myTeD';
 if (isset($_POST['txn_id'])) {
-$itemName = 'IsiWeb4Shop';
-$itemPrice = $totalEnsemble;
-$currency = 'EUR';
 
-$paypalEndpoint = 'https://api-m.sandbox.paypal.com';
-$clientIdSecret = base64_encode($clientID . ':' . $secret);
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $paypalEndpoint . '/v1/oauth2/token');
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_USERPWD, $clientIdSecret);
-curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=client_credentials');
-$tokenResult = curl_exec($ch);
-$accessToken = json_decode($tokenResult)->access_token;
-curl_close($ch);
-
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $paypalEndpoint . '/v2/checkout/orders');
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    'Authorization: Bearer ' . $accessToken,
-    'Content-Type: application/json'
-));
-//Mets les paramètres de paiement
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array(
-    'intent' => 'CAPTURE',
-    'purchase_units' => array(
-        array(
-            'amount' => array(
-                'currency_code' => $currency,
-                'value' => $itemPrice
-            )
-        )
-    )
-)));
-$orderResult = curl_exec($ch);
-$orderData = json_decode($orderResult);
-$orderId = $orderData->id;
-curl_close($ch);
-header('Location: https://www.sandbox.paypal.com/checkoutnow?token=' . $orderId);
-if (isset($_GET['success']) && $_GET['success'] == 'true') {
-    $orderId = $_GET['token'];
-
-    // Vérifier si le paiement a passé
+    $itemName = 'IsiWeb4Shop';
+    $itemPrice = $totalEnsemble;
+    $currency = 'EUR';
+    
+    $paypalEndpoint = 'https://api-m.sandbox.paypal.com';
+    $clientIdSecret = base64_encode($clientID . ':' . $secret);
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $paypalEndpoint . '/v2/checkout/orders/' . $orderId);
+    curl_setopt($ch, CURLOPT_URL, $paypalEndpoint . '/v1/oauth2/token');
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_USERPWD, $clientIdSecret);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=client_credentials');
+    $tokenResult = curl_exec($ch);
+    $accessToken = json_decode($tokenResult)->access_token;
+    curl_close($ch);
+    
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $paypalEndpoint . '/v2/checkout/orders');
+    curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Authorization: Bearer ' . $accessToken,
         'Content-Type: application/json'
     ));
+    //Mets les paramètres de paiement
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array(
+        'intent' => 'CAPTURE',
+        'purchase_units' => array(
+            array(
+                'amount' => array(
+                    'currency_code' => $currency,
+                    'value' => $itemPrice
+                )
+            )
+        )
+    )));
     $orderResult = curl_exec($ch);
     $orderData = json_decode($orderResult);
-    $paymentStatus = $orderData->status;
+    $orderId = $orderData->id;
     curl_close($ch);
-
-    if ($paymentStatus === 'COMPLETED') {
-        $controller->ValiderPaiement($orderid,'paypal');
-
+    header('Location: https://www.sandbox.paypal.com/checkoutnow?token=' . $orderId);
+    if (isset($_GET['success']) && $_GET['success'] == 'true') {
+        $orderId = $_GET['token'];
+    
+        // Vérifier si le paiement a passé
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $paypalEndpoint . '/v2/checkout/orders/' . $orderId);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Authorization: Bearer ' . $accessToken,
+            'Content-Type: application/json'
+        ));
+        $orderResult = curl_exec($ch);
+        $orderData = json_decode($orderResult);
+        $paymentStatus = $orderData->status;
+        curl_close($ch);
+    
+        if ($paymentStatus === 'COMPLETED') {
+            $controller->ValiderPaiement($orderid,'paypal');
+    
+        } else {
+            echo 'Payment not successful. Status: ' . $paymentStatus;
+        }
     } else {
-        echo 'Payment not successful. Status: ' . $paymentStatus;
+        echo 'Payment canceled or failed.';
     }
-} else {
-    echo 'Payment canceled or failed.';
-}
+    
 
 } else {
+    $categories = $controller->import_cat();
     $loader = new \Twig\Loader\FilesystemLoader(__DIR__.'/../Templates');
     $twig = new \Twig\Environment($loader);
-    echo $twig->render('Paiement.html.twig',['prix'=>$totalEnsemble]);
+    echo $twig->render('Paiement.html.twig',['prix'=>$totalEnsemble, 'categories'=>$categories]);
 }

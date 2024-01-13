@@ -154,6 +154,17 @@ class ModeleWeb4Shop {
             return false;
         }
     }
+
+
+    //ajoute une nouvelle ccommande à la table orders
+    public function create_commande($customerId,$add,$sessionid){
+        $ordersins =$this->connexion->prepare("INSERT INTO orders (customer_id,registered,delivery_add_id,payment_type, date , status , session,total) 
+            VALUES (:customer_id,1,:delivery_add_id,NULL,NULL,0,:session ,0)");
+            $ordersins->bindParam(':customer_id', $customerId);
+            $ordersins->bindParam(':delivery_add_id', $add);
+            $ordersins->bindParam(':session', $sessionid);
+            $ordersins->execute();
+    }
         // cette fonction sert à remplir les tables orders,customers,login,delivery_add au moment de la création d'un compte
     public function createUser($forname, $surname, $add1, $add2, $add3, $postcode, $phone, $email, $username, $password) {
         $this->connexion->beginTransaction();
@@ -189,12 +200,7 @@ class ModeleWeb4Shop {
             $addinsert->execute();
             $lastadd = $this->connexion->lastInsertId();
             $sessionid = session_id();
-            $ordersins =$this->connexion->prepare("INSERT INTO orders (customer_id,registered,delivery_add_id,payment_type, date , status , session,total) 
-            VALUES (:customer_id,1,:delivery_add_id,NULL,NULL,0,:session ,0)");
-            $ordersins->bindParam(':customer_id', $customerId);
-            $ordersins->bindParam(':delivery_add_id', $lastadd);
-            $ordersins->bindParam(':session', $sessionid);
-            $ordersins->execute();
+            $this->create_commande($customerId,$lastadd,$sessionid);
             $this->connexion->commit();
 
             return true;
@@ -324,7 +330,7 @@ class ModeleWeb4Shop {
 
     //importer les informations de la commande d'un client
     public function import_info_commande($username){
-        $requete=$this->connexion->prepare("SELECT o.id , o.total FROM orders o join logins l on o.customer_id = l.customer_id  where username = :username");
+        $requete=$this->connexion->prepare("SELECT o.id , o.total FROM orders o join logins l on o.customer_id = l.customer_id  where username = :username and status<10");
         $requete->bindParam(':username',$username);
         $requete->execute();
         $info = $requete->fetchAll(PDO::FETCH_ASSOC);

@@ -3,8 +3,7 @@ require_once __DIR__ . '/../modele/Modele.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 class Produit{
     public $modele;
-    public int $nb_prod=0;
-
+    
     public function __construct() {
         $this->modele = new ModeleWeb4Shop();
     }
@@ -13,6 +12,8 @@ class Produit{
     public function import_products () {
         if(isset($_POST['deconnexion'])){
             //s'il se déconnecte on initialise tout
+            session_destroy();
+            session_start();
             $_SESSION['connexion']=false;
             $_SESSION['panier']=[];
             $_SESSION['total']=0;

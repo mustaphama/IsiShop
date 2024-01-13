@@ -38,6 +38,12 @@ class AdresseController {
         $this->modele->fermerConnexion();
         return $id;
     }
+    public function import_cat(){
+        $this->modele = new ModeleWeb4Shop();
+        $categorie = $this->modele->importerTable("categories");
+        $this->modele->fermerConnexion();
+        return $categorie;
+    }
 }
 $controller = new AdresseController();
 if (isset($_SESSION['client']['username'])){
@@ -112,7 +118,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     exit;
 }
 else{
+    $categories = $controller->import_cat();
     $loader = new \Twig\Loader\FilesystemLoader(__DIR__.'/../Templates');
     $twig = new \Twig\Environment($loader);
-    echo $twig->render('ChoixAdresse.html.twig',['data'=>$data]);
+    echo $twig->render('ChoixAdresse.html.twig',['data'=>$data,'categories'=>$categories]);
 }
