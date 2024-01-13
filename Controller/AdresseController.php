@@ -17,7 +17,7 @@ class AdresseController {
     }
     public function AjoutAdresseLivraison($firstname, $lastname, $add1, $add2, $add3, $postcode, $phone, $email) {
         $this->modele = new ModeleWeb4Shop();
-        $id = $this->modele->createUnregistredUser($firstname, $lastname, $add1, $add2, $add3, $postcode, $phone, $email);
+        $id = $this->modele->addDeliveryAddress($firstname, $lastname, $add1, $add2, $add3, $postcode, $phone, $email);
         $this->modele->fermerConnexion();
         return $id;
     }
@@ -49,6 +49,7 @@ $controller = new AdresseController();
 if (isset($_SESSION['client']['username'])){
 $customerUsername=$_SESSION['client']['username'];
 $donnees = $controller->importerDonneeUtilisateur($customerUsername);
+//on importe son adresse personelles s'il est connecté
 $data=[
     'adresse1'=>$donnees[0]['add1'],
     'adresse2'=>$donnees[0]['add2'],
@@ -64,6 +65,7 @@ else {
 }
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $radioname = isset($_POST["radioname"]) ? $_POST["radioname"] : "";
+    //Lorsque l'utilisateur choisi une nouvelle adresse
     if ($radioname === "NouvelleAdresse") {
         $adresse1 = isset($_POST["NouvelleAdresse1"]) ? $_POST["NouvelleAdresse1"] : "";
         $adresse2 = isset($_POST["NouvelleAdresse2"]) ? $_POST["NouvelleAdresse2"] : "";
@@ -84,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             'adressePostale' => $adressePostale
         ];
         foreach ($data as $key => $value) {
+            //si toutes les champs, ils sont pas remplis la page de fait que se rafraichir
             if ($key !== 'adresse2' && empty($value)) {
                 header("Location: AdresseController.php");
                 exit;
@@ -91,15 +94,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
     if (isset($_SESSION['client']['username'])){
-        $deliveryid = $controller->AjoutUtilisateurNonConnecté($prenom, $nom, $adresse1, $adresse2, $adresse3, $adressePostale, $phone, $email);
+        //s'il est déjà connecté, on ajoute l'adresse de livraison ainsi qu'on mets à jour sa commande
+        $deliveryid = $controller->AjoutAdresseLivraison($prenom, $nom, $adresse1, $adresse2, $adresse3, $adressePostale, $phone, $email);
         if (isset($_SESSION['client']['orderid'])){
             $orderid = $_SESSION['client']['orderid'];
             $controller->AjoutAdresseCommande($orderid, $deliveryid);
         }
     }
     else{
+        //sinon on crée un customer, une commande pour lui, ainsi que remplir son panier
         $customerid = $controller->AjoutUtilisateurNonConnecté($prenom, $nom, $adresse1, $adresse2, $adresse3, $adressePostale, $phone, $email);
-        $deliveryid = $controller->AjoutUtilisateurNonConnecté($prenom, $nom, $adresse1, $adresse2, $adresse3, $adressePostale, $phone, $email);
+        $deliveryid = $controller->AjoutAdresseLivraison($prenom, $nom, $adresse1, $adresse2, $adresse3, $adressePostale, $phone, $email);
         $orderid = $controller->AjoutCommandesNonEnregistré($customerid,$deliveryid,1);
         $_SESSION['client']['orderid'] = $orderid;
         if(isset($_SESSION['panier'])){
