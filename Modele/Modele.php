@@ -1,6 +1,9 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
+    //démarrer une session s'il y en pas 
     session_start();
+    if (!isset($_SESSION['connexion'])){$_SESSION['connexion'] = false; }
+    
 }
 class ModeleWeb4Shop {
     public $connexion;
@@ -13,6 +16,8 @@ class ModeleWeb4Shop {
         }
     }
 
+
+    //importer la table passer en parametre
     public function importerTable($table) {
         $sql = "SELECT * FROM $table";
         try {
@@ -341,6 +346,7 @@ class ModeleWeb4Shop {
         return $commandes;
     }
 
+    //ferme la connexion avec la base de données
     public function fermerConnexion() {
         $this->connexion = null;
     }
