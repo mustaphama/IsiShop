@@ -1,6 +1,7 @@
 {
     "require": {
         "twig/twig": "^3.8",
-      "ext-pdo": "*"
+      "ext-pdo": "*",
+        "paypal/rest-api-sdk-php": "^1.14"
     }
 }

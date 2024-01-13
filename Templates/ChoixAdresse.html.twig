@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Accueil Shop</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/labelstyles.css" />
+  </head>
+  <body>
+    <header class="p-3 text-bg-dark">
+      <div class="display text-center m-2">
+        <a href="../Controller/allproducts.php"
+          ><img
+            src="../productimages/Web4ShopHeader.png"
+            height="25%"
+            width="25%"
+        /></a>
+      </div>
+      <div
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+      >
+        <ul
+          class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
+        >
+          <li>
+            <a href="top5.php" class="nav-link px-2 text-white"
+              >Accueil</a
+            >
+          </li>
+          <li>
+            <a href="allproducts.php" class="nav-link px-2 text-white"
+              >Tout les produits</a
+            >
+          </li>
+          {% for c in categories %} {% if cat == c.id %}
+          <li>
+            <a
+              href="allproducts.php?cat={{c.id}}"
+              class="nav-link px-2 text-secondary"
+              >{{c.name|capitalize}}</a
+            >
+          </li>
+          {% else %}
+          <li>
+            <a
+              href="allproducts.php?cat={{c.id}}"
+              class="nav-link px-2 text-white"
+              >{{c.name|capitalize}}</a
+            >
+          </li>
+          {% endif %} {% endfor %}
+        </ul>
+
+        <div class="text-end">
+          <a
+            class="btn btn-warning rounded-circle p-2 lh-1 m-2"
+            href="orderitems.php"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              fill="currentColor"
+              class="bi bi-cart2"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </header>
+    <form
+      action="AdresseController.php"
+      method="post"
+      id="form"
+    >
+    <div class="d-flex justify-content-around flex-wrap">
+    {% if data is empty %}
+    <label class="labl">
+        <input
+          type="radio"
+          name="radioname"
+          value="AdresseDeCompte"
+          disabled
+        />
+        <div class="d-flex align-items-center justify-content-center rounded-3 border m-3 p-3">
+    <a href="LoginController.php" class="btn btn-dark text-warning m-2">
+        Login
+    </a><br>
+    <a class="btn btn-warning m-2" href="SignupController.php">Sign-up</a>
+    {% else %}
+    <label class="labl">
+        <input
+          type="radio"
+          name="radioname"
+          value="AdresseDeCompte"
+        />
+        <div class="align-items-center rounded-3 border m-3 p-3">
+          <h5 class="display-7 fw-bold lh-1 text-body-emphasis mb-3">
+            Adresse de compte
+          </h5>
+          <div class="row">
+          <div class="col">
+          <label for="nom">Nom</label>
+              <input type="text" class="form-control my-2" id="nom" name="Nom" value="{{data.nom}}" disabled >
+          </div>
+          <div class="col">
+          <label for="Prenom">Prenom</label>
+              <input type="text" id="Prenom" class="form-control my-2" name="Prenom" value="{{data.prenom}}" disabled>
+          </div>
+        </div>
+          <div class="form-group">
+            <label for="email">Adresse mail</label>
+            <input type="email" class="form-control mb-2" id="email" name="Email"  value="{{data.email}}" disabled/>
+          </div>
+          <div class="form-group">
+            <label for="phone">Téléphone</label>
+            <input type="text" class="form-control mb-2" id="phone" name="Tel"  value="{{data.phone}}" disabled/>
+          </div>
+          <div class="form-group">
+            <label for="adresse1">Adresse 1</label>
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="adresse1"
+              value="{{ data.adresse1 }}"
+              disabled
+            />
+          </div>
+          <div class="form-group">
+            <label for="adresse2">Adresse 2</label>
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="adresse2"
+              value="{{ data.adresse2 }}"
+              disabled
+            />
+          </div>
+          <div class="form-group">
+            <label for="adresse3">Adresse 3</label>
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="adresse3"
+              value="{{ data.adresse3 }}"
+              disabled
+            />
+          </div>
+          <div class="form-group">
+            <label for="adressePostale">Adresse Postale</label>
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="adressePostale"
+              value="{{ data.adressePostale }}"
+              disabled
+            />
+          </div>
+        
+      {% endif %}
+      </div>
+      </label>
+      <label class="labl">
+        <input type="radio" name="radioname" value="NouvelleAdresse" checked="checked"/>
+        <div class="align-items-center rounded-3 border m-3 p-3">
+          <h5 class="display-7 fw-bold lh-1 text-body-emphasis mb-3">
+            Nouvelle adresse
+          </h5>
+          <div class="row">
+          <div class="col">
+          <label for="nom">Nom</label>
+              <input type="text" class="form-control my-2" id="nom" name="NouveauNom"  pattern="^[A-Za-z]{2,}$"
+                     oninvalid="this.setCustomValidity('Le nom doit être constituer que par des lettres et qu il ait au moins 2 caractères')"
+                     oninput="this.setCustomValidity('')">
+          </div>
+          <div class="col">
+          <label for="Prenom">Prenom</label>
+              <input type="text" id="Prenom" class="form-control my-2" name="NouveauPrenom"  pattern="^[A-Za-z]{2,}$"
+                     oninvalid="this.setCustomValidity('Le prénom doit être constituer que par des lettres et qu il ait au moins 2 caractères')"
+                     oninput="this.setCustomValidity('')">
+          </div>
+        </div>
+          <div class="form-group">
+            <label for="email">Adresse mail</label>
+            <input type="email" class="form-control mb-2" id="email" name="NouveauEmail"/>
+          </div>
+          <div class="form-group">
+            <label for="phone">Téléphone</label>
+            <input type="text" class="form-control mb-2" id="phone" name="NouveauTel" pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+                 oninvalid="this.setCustomValidity('Marquez un numéro de téléphone valide')"
+                 oninput="this.setCustomValidity('')"/>
+          </div>
+          <div class="form-group">
+            <label for="adresse1">Adresse 1</label>
+            <input type="text" class="form-control mb-2" id="adresse1" name="NouvelleAdresse1" pattern="^[\p{L}\p{N} ,.]+"/>
+          </div>
+          <div class="form-group">
+            <label for="adresse2">Adresse 2 <i class="opacity-50">(Optionnelle)</i></label>
+            <input type="text" class="form-control mb-2" id="adresse2" name="NouvelleAdresse2" pattern="^[\p{L}\p{N} ,.]+"/>
+          </div>
+          <div class="form-group">
+            <label for="adresse3">Adresse 3</label>
+            <input type="text" class="form-control mb-2" id="adresse3" name="NouvelleAdresse3" pattern="^[\p{L}\p{N} ,.]+"/>
+          </div>
+          <div class="form-group">
+            <label for="adressePostale">Adresse Postale</label>
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="adressePostale"
+              name="NouvelleAdressePostale"
+              pattern="[0-9]{5}"
+              oninvalid="this.setCustomValidity('Marquez un numéro code postale valide')"
+              oninput="this.setCustomValidity('')"
+            />
+          </div>
+        </div>
+      </label>
+      </div>
+      <div class="container">
+  <div class="row">
+    <div class="col-12 d-flex justify-content-center">
+      <button class="btn w-50 text-black border mb-2 border-1 py-2 btn-warning text-center" type="submit">
+        Valider votre adresse
+      </button>
+    </div>
+  </div>
+</div>
+    </form>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

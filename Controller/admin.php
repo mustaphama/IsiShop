@@ -12,7 +12,12 @@ class Admin {
     public function adminPage() {
         if (isset($_POST['order'])){
             $orderid = $_POST['order'];
+            $customerid = $_POST['customer_id'];
+            $delivery = $_POST['delivery_add'];
+            $session_id = session_id();
             $this->modele->ChangeStatus($orderid);
+            //on crée une nouvelle commande vu que l'autre est passé
+            $this->modele->create_commande($customerid,$delivery,$session_id);
         }
         $orders = $this->modele->import_commande();
         $this->modele->fermerConnexion();

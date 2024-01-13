@@ -3,7 +3,7 @@ require_once __DIR__ . '/../modele/Modele.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 class Produit{
     public $modele;
-
+    
     public function __construct() {
         $this->modele = new ModeleWeb4Shop();
     }
