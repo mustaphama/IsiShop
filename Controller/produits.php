@@ -12,12 +12,17 @@ class Produit{
     public function import_products () {
         if(isset($_POST['deconnexion'])){
             //s'il se déconnecte on initialise tout
+            session_destroy();
+            session_start();
             $_SESSION['connexion']=false;
             $_SESSION['panier']=[];
             $_SESSION['total']=0;
         }
         if (isset($_SESSION['panier'])){
             $nb_prod = count($_SESSION['panier']);
+        }
+        else{
+            $nb_prod=0;
         }
         $cat=isset($_GET['cat']) ? $_GET['cat'] : null;
         if ($cat ==null){
@@ -42,6 +47,9 @@ class Produit{
         if (isset($_SESSION['panier'])){
             $nb_prod = count($_SESSION['panier']);
         }
+        else{
+            $nb_prod=0;
+        }
         $connexion=isset($_SESSION['connexion']) ? $_SESSION['connexion'] : false;
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
         $twig = new \Twig\Environment($loader);
@@ -54,6 +62,9 @@ class Produit{
         $this->modele->fermerConnexion();
         if (isset($_SESSION['panier'])){
             $nb_prod = count($_SESSION['panier']);
+        }
+        else{
+            $nb_prod=0;
         }
         $connexion=isset($_SESSION['connexion']) ? $_SESSION['connexion'] : false;
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
