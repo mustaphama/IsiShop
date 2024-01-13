@@ -25,10 +25,11 @@ class ModeleWeb4Shop {
             die("Échec de la requête SQL : " . $e->getMessage());
         }
     }
+    //Importe les données de session vers la base de données pour les utilisateurs non connectée
     public function fillChart($orderId, $productsid,$quantity) {
         $this->connexion->beginTransaction();
         try {
-            $ordersins =$this->connexion->prepare("INSERT INTO orderitems(order_id, quantity, product_id) VALUES(:order_id, :product_id, :quantity);");
+            $ordersins =$this->connexion->prepare("INSERT INTO orderitems(order_id, quantity, product_id) VALUES(:order_id, :quantity, :product_id);");
             $ordersins->bindParam(':order_id', $orderId);
             $ordersins->bindParam(':product_id', $productsid);
             $ordersins->bindParam(':quantity', $quantity);
@@ -41,6 +42,7 @@ class ModeleWeb4Shop {
             return false;
         }
     }
+    //Mets à jour la commande une fois que l'utilisateur ajoute son adresse
     public function addAdresstoOrder($orderId, $delivery_add) {
         $this->connexion->beginTransaction();
         try {
@@ -56,6 +58,7 @@ class ModeleWeb4Shop {
             return false;
         }
     }
+    // Mets à jour le panier une fois le paiement validé
     public function UpdateOrder($orderId, $methodePaiement) {
         $this->connexion->beginTransaction();
         try {
@@ -72,6 +75,7 @@ class ModeleWeb4Shop {
             return false;
         }
     }
+    // Ajout de la commande vers la base de données lorsque l'utilisateur non connecté met son adresse
     public function addOrdersUnregistred($customerId, $delivery_add, $status) {
         $this->connexion->beginTransaction();
         try {
@@ -95,11 +99,11 @@ class ModeleWeb4Shop {
             return false;
         }
     }
-
+    //Cette fonction ajoute les adresses de livraison
     public function addDeliveryAddress($firstname, $lastname, $add1, $add2, $add3, $postcode, $phone, $email) {
         $this->connexion->beginTransaction();
         try {
-            $customerQuery = "INSERT INTO delivery_addresses (firstname, lastname, add1, add2, city, postcode, phone, email, registered) VALUES (:firstname, :lastname, :add1, :add2, :add3, :postcode, :phone, :email)";
+            $customerQuery = "INSERT INTO delivery_addresses (firstname, lastname, add1, add2, city, postcode, phone, email) VALUES (:firstname, :lastname, :add1, :add2, :add3, :postcode, :phone, :email)";
             $customerStmt = $this->connexion->prepare($customerQuery);
             $customerStmt->bindParam(':firstname', $firstname);
             $customerStmt->bindParam(':lastname', $lastname);
@@ -120,10 +124,11 @@ class ModeleWeb4Shop {
             return false;
         }
     }
+    //Cette fonction ajoute l'utilisateur sans ajouté d'authenfication pour les utilisateur annonyme
     public function createUnregistredUser($forname, $surname, $add1, $add2, $add3, $postcode, $phone, $email) {
         $this->connexion->beginTransaction();
         try {
-            $customerQuery = "INSERT INTO customers (forname, surname, add1, add2, add3, postcode, phone, email, registered) VALUES (:forname, :surname, :add1, :add2, :add3, :postcode, :phone, :email, 1)";
+            $customerQuery = "INSERT INTO customers (forname, surname, add1, add2, add3, postcode, phone, email, registered) VALUES (:forname, :surname, :add1, :add2, :add3, :postcode, :phone, :email, 0)";
             $customerStmt = $this->connexion->prepare($customerQuery);
             $customerStmt->bindParam(':forname', $forname);
             $customerStmt->bindParam(':surname', $surname);

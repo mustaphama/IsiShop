@@ -39,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     foreach ($donneesCustomers as $donnee) {
+        //A chaque erreur, on ajoute son code à un array qui ensuite liste toutes les erreurs à l'utilisateurs
         if ($donnee['email'] == $username) {
             $Erreur->append(1);
             $Validation=False;

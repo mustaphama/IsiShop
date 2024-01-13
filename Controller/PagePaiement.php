@@ -20,8 +20,6 @@ class PagePaiement {
         $this->modele->fermerConnexion();
     }
 }
-print_r($_SESSION['panier']);
-exit;
 $controller = new PagePaiement();
 $totalEnsemble=0;
 $pdf = new FPDF();
@@ -58,44 +56,78 @@ if (isset($_SESSION['client']['orderid'])){
     $pdf->Cell(40, 10, '', 1); 
     $pdf->Cell(40, 10, utf8_decode($totalEnsemble.' $'), 1); 
 }
-
+//Mets à jour le pdf de la Facture
 $pdf->Output('../Ressources/Facture.pdf', 'F');
-$clientId = 'AaNHGH6tny4fFZ3pGu60p5dI7m6wKL9GO2hR7X3jTHWu0vUE3s_vL5mFxuOYlti6RsDEX9q_luYetV2Y';
-$clientSecret = 'EPuOlLNmFra-twQn6yZLg6YjdHjgQhnRYUNGwKVQXV9D6rwGWcB7VjMJuZjzjS6uWc8oMbGwEW4myTeD';
-$apiContext = new ApiContext(
-    new OAuthTokenCredential($clientId, $clientSecret)
-);
-$apiContext->setConfig([
-    'mode' => 'sandbox',
-]);
-
+$clientID = 'AaNHGH6tny4fFZ3pGu60p5dI7m6wKL9GO2hR7X3jTHWu0vUE3s_vL5mFxuOYlti6RsDEX9q_luYetV2Y';
+$secret = 'EPuOlLNmFra-twQn6yZLg6YjdHjgQhnRYUNGwKVQXV9D6rwGWcB7VjMJuZjzjS6uWc8oMbGwEW4myTeD';
 if (isset($_POST['txn_id'])) {
-    try {
-        // Perform IPN verification
-        $post_data = $_POST;
-        $post_data['cmd'] = '_notify-validate';
+$itemName = 'IsiWeb4Shop';
+$itemPrice = $totalEnsemble;
+$currency = 'EUR';
 
-        $ch = curl_init('https://www.sandbox.paypal.com/cgi-bin/webscr');
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post_data));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, false);
+$paypalEndpoint = 'https://api-m.sandbox.paypal.com';
+$clientIdSecret = base64_encode($clientID . ':' . $secret);
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $paypalEndpoint . '/v1/oauth2/token');
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_USERPWD, $clientIdSecret);
+curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=client_credentials');
+$tokenResult = curl_exec($ch);
+$accessToken = json_decode($tokenResult)->access_token;
+curl_close($ch);
 
-        $response = curl_exec($ch);
-        curl_close($ch);
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $paypalEndpoint . '/v2/checkout/orders');
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Authorization: Bearer ' . $accessToken,
+    'Content-Type: application/json'
+));
+//Mets les paramètres de paiement
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array(
+    'intent' => 'CAPTURE',
+    'purchase_units' => array(
+        array(
+            'amount' => array(
+                'currency_code' => $currency,
+                'value' => $itemPrice
+            )
+        )
+    )
+)));
+$orderResult = curl_exec($ch);
+$orderData = json_decode($orderResult);
+$orderId = $orderData->id;
+curl_close($ch);
+header('Location: https://www.sandbox.paypal.com/checkoutnow?token=' . $orderId);
+if (isset($_GET['success']) && $_GET['success'] == 'true') {
+    $orderId = $_GET['token'];
 
-        if ($response == 'VERIFIED') {
-            if ($_POST['payment_status'] == 'Completed') {
-                $controller->ValiderPaiement($orderid,'paypal');
-            } else {
-                echo 'Payment status is not Completed';
-            }
-        } else {
-            echo 'IPN Validation Failed';
-        }
-    } catch (Exception $ex) {
-        echo 'Error: ' . $ex->getMessage();
+    // Vérifier si le paiement a passé
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $paypalEndpoint . '/v2/checkout/orders/' . $orderId);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Authorization: Bearer ' . $accessToken,
+        'Content-Type: application/json'
+    ));
+    $orderResult = curl_exec($ch);
+    $orderData = json_decode($orderResult);
+    $paymentStatus = $orderData->status;
+    curl_close($ch);
+
+    if ($paymentStatus === 'COMPLETED') {
+        $controller->ValiderPaiement($orderid,'paypal');
+
+    } else {
+        echo 'Payment not successful. Status: ' . $paymentStatus;
     }
+} else {
+    echo 'Payment canceled or failed.';
+}
+
 } else {
     $loader = new \Twig\Loader\FilesystemLoader(__DIR__.'/../Templates');
     $twig = new \Twig\Environment($loader);
