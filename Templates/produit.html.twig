@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Accueil Shop</title>
+    <title>{{ product[0].name }}</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -23,7 +23,7 @@
       <ul
       class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
     >
-      <li><a href="allproducts.php" class="nav-link px-2 text-white">Accueil</a></li>
+      <li><a href="top5.php" class="nav-link px-2 text-white">Accueil</a></li>
       <li><a href="allproducts.php" class="nav-link px-2 text-white">Tout les produits</a></li>
       {% for c in categories %}
       {% if cat == c.id %}
@@ -38,7 +38,7 @@
 
         <div class="text-end">
           <a
-            class="btn btn-warning rounded-circle p-2 lh-1 m-2"
+            class="btn btn-warning rounded-circle p-2 lh-1 m-2 position-relative"
             href="orderitems.php"
           >
             <svg
@@ -53,11 +53,25 @@
                 d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"
               />
             </svg>
+            {% if nb_prod>0 %}
+            <span class="position-absolute top-0 start-90 translate-middle badge rounded-pill bg-danger">
+              {{nb_prod}}
+            </span>
+            {% endif %}
           </a>
+          {% if connexion %}
+          <form method="post" action="allproducts.php">
+            <button name="deconnexion" class="btn btn-outline-light me-2">
+              Logout
+            </button>
+          </form>
+          <h5></h5>
+          {% else %}
           <a href="LoginController.php" class="btn btn-outline-light me-2">
             Login
           </a>
-          <a href="SignupController.php" class="btn btn-warning">Sign-up</a>
+          <a class="btn btn-warning" href="SignupController.php">Sign-up</a>
+          {% endif %}
         </div>
       </div>
     </header>
@@ -101,7 +115,7 @@
           </div>
           
         <div class="d-flex justify-content-between align-items-center row pt-3">
-          <div class="col-md-2"><strong>{{ product[0].price }} $</strong></div>
+          <div class="col-md-2"><strong>{{ product[0].price }} €</strong></div>
           <button type="submit" name="ajouterAuPanier" class="btn btn-warning col-md-2 col-md-offset-1 btn-outline-dark">Ajouter Au Panier 
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart-plus-fill" viewBox="0 0 16 16">
             <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0"/>

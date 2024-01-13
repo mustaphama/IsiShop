@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Accueil Shop</title>
+    <title>Panier</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -24,9 +24,7 @@
           class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
         >
           <li>
-            <a href="allproducts.php" class="nav-link px-2 text-white"
-              >Accueil</a
-            >
+            <a href="top5.php" class="nav-link px-2 text-white">Accueil</a>
           </li>
           <li>
             <a href="allproducts.php" class="nav-link px-2 text-white"
@@ -38,7 +36,7 @@
             <a
               href="allproducts.php?cat={{ c.id }}"
               class="nav-link px-2 text-secondary"
-              >{{ c.name|capitalize }}</a
+              >{{ c.name | capitalize }}</a
             >
           </li>
           {% else %}
@@ -46,7 +44,7 @@
             <a
               href="allproducts.php?cat={{ c.id }}"
               class="nav-link px-2 text-white"
-              >{{ c.name|capitalize }}</a
+              >{{ c.name | capitalize }}</a
             >
           </li>
           {% endif %} {% endfor %}
@@ -70,24 +68,38 @@
               />
             </svg>
           </a>
+          {% if connexion %}
+          <form method="post" action="allproducts.php">
+            <button name="deconnexion" class="btn btn-outline-light me-2">
+              Logout
+            </button>
+          </form>
+          <h5></h5>
+          {% else %}
           <a href="LoginController.php" class="btn btn-outline-light me-2">
             Login
           </a>
-          <a href="SignupController.php" class="btn btn-warning">Sign-up</a>
+          <a class="btn btn-warning" href="SignupController.php">Sign-up</a>
+          {% endif %}
         </div>
       </div>
     </header>
     <div class="row mt-3">
       <div class="col-md-1"></div>
       <div class="col-md-7">
-        <div class="text-center border border-dark rounded bg-warning text-emphasis-secondary mt-2 mb-4">
-          <h2 class="title font-weight-bold">
-            Mon Panier
-          </h2>
+        <div
+          class="text-center border border-dark rounded bg-warning text-emphasis-secondary mt-2 mb-4"
+        >
+          <h2 class="title font-weight-bold">Mon Panier</h2>
         </div>
         {% for p in panier %}
         <form method="post" action="orderitems.php">
-          <div class="card h-auto shadow" style="position: relative">
+          <div
+            class="card h-auto shadow"
+            style="position: relative"
+            data-bs-placement="top"
+            title="{{ p.name }}"
+          >
             <input type="hidden" name="p" value="{{ p.id }}" />
             <button
               name="supprime"
@@ -116,7 +128,7 @@
 
             <div class="row">
               <img
-                src="../productimages/{{ p.img }}"
+                src="../productimages/{{ p.image }}"
                 width="10%"
                 height="60%"
                 class="h-auto m-3 col-md-2"
@@ -127,15 +139,15 @@
                     class="col-md-3"
                     style="font-family: Arial, Helvetica, sans-serif"
                   >
-                    {{ p.nom }}
+                    {{ p.name }}
                   </h4>
                   <div class="col-md-1"></div>
-                  <span class="col-md-3">Quantité : {{ p.quantite }}</span>
+                  <span class="col-md-3">Quantité : {{ p.quantity }}</span>
                   <h5 class="m-2 col-md-3 offset-md-3">
-                    <strong>{{ p.prix * p.quantite }}$</strong>
+                    <strong>{{ p.price * p.quantity }}€</strong>
                   </h5>
                 </div>
-                <p class="row">{{ p.prix }}$</p>
+                <p class="row">{{ p.price }}€</p>
               </div>
             </div>
           </div>
@@ -149,26 +161,28 @@
           <div>
             <div>
               <small>Produits</small>
+              {% for p in panier %}
               <span class="amount d-flex justify-content-end"
-                ><small>{{ total }} $</small></span
+                ><small>{{ p.price * p.quantity }} €</small></span
               >
+              {% endfor %}
             </div>
 
             <div>
               <strong>Total</strong>
               <span class="amount d-flex justify-content-end"
-                ><strong>{{ total }} $</strong>
+                ><strong>{{ total }} €</strong>
               </span>
             </div>
             <hr />
 
-            <div class="delivery-total glopal-hide" id="totalShipping">
+            <div>
               <em>Frais de livraison estimés</em>
               <span class="d-flex justify-content-end">Gratuit</span>
             </div>
 
             <div class="text-center hidden-xs">
-              <a href="#" class="button btn btn-warning button-medium mt-3">
+              <a href="AdresseController.php" class="button btn btn-warning button-medium mt-3">
                 Valider ma commande
               </a>
             </div>

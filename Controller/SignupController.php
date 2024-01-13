@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     else{
         $controller->nouveauUtilisateur($_POST["Prenom"],$_POST["Nom"],$_POST["Adresse1"],$_POST["Adresse2"],$_POST["Adresse3"],$_POST["Postcode"],$_POST["PhoneNumber"],$_POST["email"],$_POST["username"],$_POST["password"]);
-        header("allproducts.php");
+        header("Location: LoginController.php");
         exit();
     }
 }

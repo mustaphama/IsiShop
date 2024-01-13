@@ -9,6 +9,9 @@
   <body  class="mx-auto" style="background-color: #0D1117;">
     <div class="container d-flex justify-content-center align-items-center">
     <main class="form-signin mx-auto" style="width: 350px;">
+    <div>
+    <a href="../Controller/allproducts.php"><img src="../productimages/Web4ShopHeader.png" style="width: 325px;"></a>
+    </div>
       {% if erreur == true %}
         <div class="text-white border border-danger border-1 rounded-3 px-3 pt-3 mb-4" style="background-color: #26181D;">
           <p>Echec de connection:</p>
@@ -31,7 +34,7 @@
         <div class="row">
           <div class="col">
             <div class="form-floating">
-              <input required type="text" class="form-control my-2" id="floatingPassword" placeholder="Nom" name="Nom"  pattern="^[A-Za-z]{2,}$"
+              <input required type="text" class="form-control my-2" placeholder="Nom" name="Nom"  pattern="^[A-Za-z]{2,}$"
                      oninvalid="this.setCustomValidity('Le nom doit être constituer que par des lettres et qu il ait au moins 2 caractères')"
                      oninput="this.setCustomValidity('')">
               <label class="text-black opacity-50" for="floatingInput">Nom</label>
@@ -39,7 +42,7 @@
           </div>
           <div class="col">
             <div class="form-floating">
-              <input required type="text" class="form-control my-2" id="floatingPassword" placeholder="Prénom" name="Prenom"  pattern="^[A-Za-z]{2,}$"
+              <input required type="text" class="form-control my-2" placeholder="Prénom" name="Prenom"  pattern="^[A-Za-z]{2,}$"
                      oninvalid="this.setCustomValidity('Le prénom doit être constituer que par des lettres et qu il ait au moins 2 caractères')"
                      oninput="this.setCustomValidity('')">
               <label class="text-black opacity-50" for="floatingInput">Prénom</label>
@@ -47,40 +50,40 @@
           </div>
         </div>
         <div class="form-floating">
-          <input required  type="text" class="form-control my-2 text-black" id="floatingInput" placeholder="example123" name="username">
+          <input required  type="text" class="form-control my-2 text-black" placeholder="example123" name="username">
           <label class="text-black opacity-50" for="floatingInput">Nom d'utilisateur</label>
         </div>
         <div class="form-floating">
-          <input required type="email" class="form-control my-2 text-black" id="floatingInput" placeholder="name@example.com" name="email">
+          <input required type="email" class="form-control my-2 text-black" placeholder="name@example.com" name="email">
           <label class="text-black opacity-50" for="floatingInput">Adresse email</label>
         </div>
         <div class="form-floating">
-          <input required type="text" class="form-control my-2 text-black" id="floatingInput" name="PhoneNumber" placeholder="0123456789" pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+          <input required type="text" class="form-control my-2 text-black" name="PhoneNumber" placeholder="0123456789" pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
                  oninvalid="this.setCustomValidity('Marquez un numéro de téléphone valide')"
                  oninput="this.setCustomValidity('')">
           <label class="text-black opacity-50" for="floatingInput">Téléphone</label>
         </div>
         <div class="form-floating">
-          <input required type="password" class="form-control my-2" id="floatingPassword" placeholder="Password" name="password" pattern="^[A-Za-z0-9]{8,}$"
-                 oninvalid="this.setCustomValidity('Le mot de passe doit être constitué de 8 caractères: au moins une majuscule, une miniscule et un chiffre.')"
+          <input required type="password" class="form-control my-2" placeholder="Password" name="password" pattern="^[A-Za-z0-9!@#$%^&*()_+{}|;:]{8,}$"
+                 oninvalid="this.setCustomValidity('Le mot de passe doit être constitué de 8 caractères: au moins une majuscule,un chiffre et un caractère spécial.')"
                  oninput="this.setCustomValidity('')">
           <label class="text-black opacity-50" for="floatingPassword">Mot de passe</label>
         </div>
         <div class="form-floating">
-          <input required type="password" class="form-control my-2" id="floatingPassword" placeholder="Password" name="ConfirmPassword">
+          <input required type="password" class="form-control my-2" placeholder="Password" name="ConfirmPassword">
           <label class="text-black opacity-50" for="floatingPassword">Confirmez votre mot de passe</label>
         </div>
         <hr class="border border-grey border-1 opacity-1">
         <div class="form-floating">
-          <input required type="text" class="form-control my-2" id="floatingInput" placeholder="Rue de la Twig" name="Adresse1">
+          <input required type="text" class="form-control my-2" placeholder="Rue de la Twig" name="Adresse1">
           <label class="text-black opacity-50" for="floatingInput">Addresse 1</label>
         </div>
         <div class="form-floating">
-          <input type="text" class="form-control my-2" id="floatingInput" placeholder="Appartement, 50" name="Adresse2">
+          <input type="text" class="form-control my-2" placeholder="Appartement, 50" name="Adresse2">
           <label class="text-black opacity-50" for="floatingInput">Addresse 2 <i>(Optionnelle)</i></label>
         </div>
         <div class="form-floating">
-          <input required type="text" class="form-control my-2" id="floatingInput" placeholder="Lyon" name="Adresse3">
+          <input required type="text" class="form-control my-2" placeholder="Lyon" name="Adresse3">
           <label class="text-black opacity-50" for="floatingInput">Addresse 3 <i>(Ville, État/Province, ...)</i></label>
         </div>
         <div class="form-floating">
