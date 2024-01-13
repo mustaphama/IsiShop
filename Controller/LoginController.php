@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if ($Validation==False){
         $donnees = $login->modele->importerTable("admin");
+        //verification des identifiants
         $login->modele->fermerConnexion();
         if ($donnees[0]['username'] == $username && ($donnees[0]['password']===$hashedEnteredPassword)) {
             session_unset();
