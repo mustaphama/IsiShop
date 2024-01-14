@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Page</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <header class="p-3 text-bg-dark">
+      <div class="display text-center m-2">
+        <img
+          src="../productimages/Web4ShopHeader.png"
+          height="25%"
+          width="25%"
+        />
+      </div>
+      <div
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+      >
+        <div class="text-end">
+          <form method="post" action="allproducts.php">
+            <button name="deconnexion" class="btn btn-outline-light me-2">
+              Logout
+            </button>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row justify-content-center">
+        <table class="table table-warning table-striped mt-4">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Customer_id</th>
+              <th scope="col">Inscription</th>
+              <th scope="col">Addresse de livraison</th>
+              <th scope="col">Méthode de payment</th>
+              <th scope="col">Date</th>
+              <th scope="col">Total</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in orders %}
+            <form method="post" action="admin.php">
+              <tr>
+                <th scope="row">{{ order.id }}</th>
+                <td>{{ order.customer_id }}</td>
+                <td>{{ order.registered }}</td>
+                <td>{{ order.delivery_add_id }}</td>
+                <td>{{ order.payment_type }}</td>
+                <td>{{ order.date }}</td>
+                <td>{{ order.total }}</td>
+                {% if order.status ==2 %}
+                <td>
+                  <button
+                    type="submit"
+                    class="btn btn-warning btn-outline-dark"
+                  >
+                    Confirmer le paiement
+                  </button>
+                </td>
+                {% else %}
+                <td class="text-primary">Commande terminée</td>
+                {% endif %}
+              </tr>
+              <input type="hidden" name="order" value="{{ order.id }}" />
+              <input
+                type="hidden"
+                name="customer_id"
+                value="{{ order.customer_id }}"
+              />
+              <input
+                type="hidden"
+                name="delivery_add"
+                value="{{ order.delivery_add_id }}"
+              />
+            </form>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
